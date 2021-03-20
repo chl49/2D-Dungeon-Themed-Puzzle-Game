@@ -13,17 +13,24 @@ public class main {
         int noOfColumns = 0;
         String contentsOfArray = "";
 
+        // creating a new board from a text file
         Board newBoard = new Board("src/input.txt");
 
+        // storing the array of cells in newCellArray
         Cell[] newCellArray = newBoard.getCellArray();
 
+        // getting the number of rows on the board
         noOfRows = newBoard.getNoOfRows();
+
+        // getting the number of columns on the board
         noOfColumns = newBoard.getNoOfColumns();
 
+        // going through the array and storing the contents together as a string
         for (int i = 0; i < (noOfRows*noOfColumns); i++) {
             contentsOfArray += newCellArray[i].getCellChar();
         }
 
+        // printing some stuff just to see what was created
         System.out.println("Contents from the text file: " + newBoard.getFileContent()
                 + "\nNumber of Rows = " + Integer.toString(noOfRows)
                 + "\nNumber of Columns = " + Integer.toString(noOfColumns)

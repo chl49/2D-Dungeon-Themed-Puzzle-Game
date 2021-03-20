@@ -9,16 +9,24 @@ public class Board {
     Cell [] cellArray;
     String fileContent;
 
+    // empty constructor
     public Board() {
 
     }
 
+    // constructor takes the name of an existing text file,
+    // reads from the file,
+    // and creates an array of Cells
     public Board(String fileName)  throws IOException {
+
+        // reading from the text file and storing into a String variable
         fileContent = readFile(fileName);
+
         // pass fileContent to a function that will create a cell array
         cellArray = createCellArray();
     }
 
+    // method to read from the text file
     public String readFile(String fileName) throws IOException {
 
         String result;
@@ -42,14 +50,17 @@ public class Board {
 
     }
 
+    // returns the number of columns of cells on the game board
     public int getNoOfColumns () {
         return rowSize;
     }
 
+    // returns the number of rows of cells on the game board
     public int getNoOfRows () {
         return rowCount;
     }
 
+    // method creates an array of cells with different letters in them for now showing the content of the cell.
     public Cell[] createCellArray() {
 
         Cell[] newCellArray = new Cell[100];
@@ -59,22 +70,16 @@ public class Board {
         return newCellArray;
     }
 
+    // returns the contents of the text file
     public String getFileContent() {
 
 //        Cell[] oneCell = null;
         return fileContent;
     }
 
+    // returns the array of cells
     public Cell[] getCellArray() {
         return cellArray;
     }
 
-    public void printAll(int[][] a) {
-        for (int i=0; i<a.length; i++) {
-            for (int j=0; j<a.length; ++j) {
-                System.out.print(a[i][j] + " ");
-            }
-        System.out.println();
-        }
-    }
 }
