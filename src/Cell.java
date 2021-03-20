@@ -2,11 +2,10 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Cell extends Board {
+public class Cell {
 
-    int cellRow;
-    int cellColumn;
-    char typeOfCell;
+    int cellRow; // position
+    char typeOfCell; // n
     short sidesWithWall;
 
     public Cell() {
@@ -17,9 +16,8 @@ public class Cell extends Board {
         setType(cellType);
     }
 
-    public Cell(int rowOfCell, int columnOfCell, String cellType) {
+    public Cell(int rowOfCell, String cellType) {
         cellRow = rowOfCell;
-        cellColumn = columnOfCell;
         setType(cellType);
     }
 
@@ -32,28 +30,8 @@ public class Cell extends Board {
         return cell;
     }
 
-    public String getType() {
+    public char getType() {
         return this.typeOfCell;
-    }
-
-    public String getGrid() throws IOException {
-        String result;
-        FileReader fr = new FileReader("src/input.txt");
-        BufferedReader reader = new BufferedReader(fr);
-
-        String line;
-        StringBuilder content = new StringBuilder();
-
-        while ((line = reader.readLine()) != null) {
-            content.append(line);
-            content.append("\n");
-        }
-        result = content.toString();
-
-        reader.close();
-        fr.close();
-
-        return result;
     }
 
 
