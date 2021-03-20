@@ -1,6 +1,8 @@
-public class Wall extends Cell {
+public class Wall {
 
     public Wall() {
 
     }
+
+
 }

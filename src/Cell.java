@@ -5,34 +5,14 @@ import java.io.IOException;
 public class Cell {
 
     int cellRow; // position
-    char typeOfCell; // n
-    short sidesWithWall;
+    char cellChar;
 
-    public Cell() {
-
+    public Cell(char cellContent) {
+        cellChar = cellContent;
     }
 
-    public Cell(char cellType) {
-        setType(cellType);
+    public char getCellChar() {
+        return cellChar;
     }
-
-    public Cell(int rowOfCell, String cellType) {
-        cellRow = rowOfCell;
-        setType(cellType);
-    }
-
-    public void setType(char cellType) {
-        typeOfCell = cellType;
-    }
-
-    public Cell getCell(int rowOfCell, int columnOfCell, String cellType) {
-        Cell cell = cellArray[1];
-        return cell;
-    }
-
-    public char getType() {
-        return this.typeOfCell;
-    }
-
 
 }

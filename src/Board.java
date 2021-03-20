@@ -5,7 +5,7 @@ import java.io.IOException;
 public class Board {
 
     int rowCount;
-    int columnCount;
+    int rowSize;
     Cell [] cellArray;
     String fileContent;
 
@@ -15,37 +15,58 @@ public class Board {
 
     public Board(String fileName)  throws IOException {
         fileContent = readFile(fileName);
-        // pass it to a function that will create a cell array
+        // pass fileContent to a function that will create a cell array
+        cellArray = createCellArray();
     }
 
     public String readFile(String fileName) throws IOException {
+
         String result;
         FileReader fr = new FileReader(fileName);
         BufferedReader reader = new BufferedReader(fr);
-
         String line;
         StringBuilder content = new StringBuilder();
 
         while ((line = reader.readLine()) != null) {
             content.append(line);
-            rowsize = line.length();
-            content.append("\n");
+            rowSize = line.length();
             rowCount++;
         }
+
         result = content.toString();
 
         reader.close();
         fr.close();
 
         return result;
+
     }
 
-    public static int getRowSize () {
+    public int getNoOfColumns () {
         return rowSize;
     }
 
-    public void drawBoard() {
-        String fileName = "";
+    public int getNoOfRows () {
+        return rowCount;
+    }
+
+    public Cell[] createCellArray() {
+
+        Cell[] newCellArray = new Cell[100];
+        for (int i = 0; i < fileContent.length(); i++) {
+            newCellArray[i] = new Cell(fileContent.charAt(i));
+        }
+        return newCellArray;
+    }
+
+    public String getFileContent() {
+
+//        Cell[] oneCell = null;
+        return fileContent;
+    }
+
+    public Cell[] getCellArray() {
+        return cellArray;
     }
 
     public void printAll(int[][] a) {
@@ -56,5 +77,4 @@ public class Board {
         System.out.println();
         }
     }
-
 }

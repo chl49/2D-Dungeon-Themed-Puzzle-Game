@@ -8,16 +8,27 @@ import java.util.Scanner;
 public class main {
     public static void main(String[] args) throws IllegalStateException, IOException {
 
-        String gridString;
+        String gridString = "";
+        int noOfRows = 0;
+        int noOfColumns = 0;
+        String contentsOfArray = "";
 
-        Cell oneCell = new Cell();
-        gridString = oneCell.getGrid();
-        System.out.println(gridString + " " + "...");
-        Cell[][] cellArray = null;
+        Board newBoard = new Board("src/input.txt");
 
-        int rowCounter = 0;
-        for (int i = 0; i < gridString.length(); i++) {
-            Cell newCell = new Cell(gridString.charAt(i));
+        Cell[] newCellArray = newBoard.getCellArray();
+
+        noOfRows = newBoard.getNoOfRows();
+        noOfColumns = newBoard.getNoOfColumns();
+
+        for (int i = 0; i < (noOfRows*noOfColumns); i++) {
+            contentsOfArray += newCellArray[i].getCellChar();
         }
+
+        System.out.println("Contents from the text file: " + newBoard.getFileContent()
+                + "\nNumber of Rows = " + Integer.toString(noOfRows)
+                + "\nNumber of Columns = " + Integer.toString(noOfColumns)
+                + "\nContents from the Cell Array: " + contentsOfArray
+                + "\nTotal number of cells: " + (noOfRows*noOfColumns));
+
     }
 }
