@@ -22,29 +22,6 @@ public class Board {
         String fileName = "";
     }
 
-    public Cell getCell(int rowOfCell, int columnOfCell, String cellType) {
-        Cell cell = cellArray[1];
-        return cell;
-    }
-
-    public void displayGrid() throws IOException {
-        String result;
-        FileReader fr = new FileReader("src/input.txt");
-        BufferedReader reader = new BufferedReader(fr);
-
-        StringBuilder content = new StringBuilder();
-        String line;
-
-        while ((line = reader.readLine()) != null) {
-            content.append(line);
-            content.append(System.lineSeparator());
-        }
-        result = content.toString();
-        System.out.println(result);
-        reader.close();
-        fr.close();
-    }
-
     public void printAll(int[][] a) {
         for (int i=0; i<a.length; i++) {
             for (int j=0; j<a.length; ++j) {

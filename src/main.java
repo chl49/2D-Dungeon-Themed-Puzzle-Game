@@ -12,9 +12,9 @@ public class main {
         String[] rowN = null;
         String result;
 
-        Cell cells = new Cell();
+        Cell oneCell = new Cell();
         Board gameBoard = new Board();
-        gameBoard.displayGrid();
+        oneCell.displayGrid();
 
     }
 }
