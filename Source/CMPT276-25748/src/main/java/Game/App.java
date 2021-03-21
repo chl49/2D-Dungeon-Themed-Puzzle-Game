@@ -17,7 +17,6 @@ public class App extends JFrame {
 
         setTitle("App");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //setSize(380, 420);
         setSize(600, 600);
         setLocationRelativeTo(null);
     }

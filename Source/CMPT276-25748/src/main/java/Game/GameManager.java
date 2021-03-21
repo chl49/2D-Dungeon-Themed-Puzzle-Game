@@ -25,7 +25,7 @@ public class GameManager extends JPanel implements ActionListener {
     private final int MoveDistance = BLOCK_SIZE;
 
     private int AnimCooldown = AnimationDelay;
-    private int AnimPos = 0;
+    private int AnimPos = 0; //Animation Looper
     private Image playerUp1, playerLeft1, playerRight1, playerDown1;
     private Image playerUp2, playerLeft2, playerRight2, playerDown2;
     private Image playerUp3, playerDown3, playerLeft3, playerRight3;
@@ -33,7 +33,7 @@ public class GameManager extends JPanel implements ActionListener {
 
     private int playerX, playerY;
     private int moveX, moveY;
-    private int cooldown=30;
+    private int cooldown=30;  //TICK TIME
     private Timer timer;
 
     public GameManager() {
@@ -50,10 +50,15 @@ public class GameManager extends JPanel implements ActionListener {
         setFocusable(true);
 
         setBackground(Color.black);
+
+        //ADD BOARD CLASS
+        //ADD BOARD BACKGROUND
     }
 
     private void initVariables() {
-        d = new Dimension(400, 400);
+        d = new Dimension(600, 600);
+        //ADD INTERACTABLES
+        //ADD MOVABLES
 
         timer = new Timer(60, this);
         timer.start();
@@ -61,6 +66,7 @@ public class GameManager extends JPanel implements ActionListener {
 
     @Override
     public void addNotify() {
+        //START UP HERE
         super.addNotify();
 
         initGame();
@@ -87,9 +93,11 @@ public class GameManager extends JPanel implements ActionListener {
 
     private void moveplayer() {
         // CHECK BOARD CONSTRAINTS HERE
+        // MOVE ENEMIES HERE OR CREATE NEW CLASS FOR MOVE ENEMIES IN playGame
         cooldown--;
         if(cooldown<=0){
             cooldown=30;
+            //IF CONSTRAINT AT NEW LOCATION, CANCEL MOVE
             playerX = playerX + MoveDistance * moveX;
             playerY = playerY + MoveDistance * moveY;
         }
@@ -194,34 +202,17 @@ public class GameManager extends JPanel implements ActionListener {
 
     private void continueLevel() {
 
-        //PLAYER AND MOVEABLE HERE
+        //PLAYER AND MOVEABLE START HERE
 
-        short i;
-        int dx = 1;
-        int random;
-
-        playerX = 10 * BLOCK_SIZE;
-        playerY = 10 * BLOCK_SIZE;
+        playerX = 10 * BLOCK_SIZE; //STARTING LOCATION
+        playerY = 10 * BLOCK_SIZE; //STARTING LOCATION
         moveX = 0;
         moveY = 0;
     }
 
     private void loadImages() {
-
-        // player1 = new ImageIcon("Source/CMPT276-25748/src/resources/images/player.png").getImage();
-        // playerUp2 = new ImageIcon("Source/CMPT276-25748/src/resources/images/up1.png").getImage();
-        // playerUp3 = new ImageIcon("Source/CMPT276-25748/src/resources/images/up2.png").getImage();
-        // playerUp4 = new ImageIcon("Source/CMPT276-25748/src/resources/images/up3.png").getImage();
-        // playerDown2 = new ImageIcon("Source/CMPT276-25748/src/resources/images/down1.png").getImage();
-        // playerDown3 = new ImageIcon("Source/CMPT276-25748/src/resources/images/down2.png").getImage();
-        // playerDown4 = new ImageIcon("Source/CMPT276-25748/src/resources/images/down3.png").getImage();
-        // playerLeft2 = new ImageIcon("Source/CMPT276-25748/src/resources/images/left1.png").getImage();
-        // playerLeft3 = new ImageIcon("Source/CMPT276-25748/src/resources/images/left2.png").getImage();
-        // playerLeft4 = new ImageIcon("Source/CMPT276-25748/src/resources/images/left3.png").getImage();
-        // playerRight2 = new ImageIcon("Source/CMPT276-25748/src/resources/images/right1.png").getImage();
-        // playerRight3 = new ImageIcon("Source/CMPT276-25748/src/resources/images/right2.png").getImage();
-        // playerRight4 = new ImageIcon("Source/CMPT276-25748/src/resources/images/right3.png").getImage();
-
+        //SPRITES 
+        //ADD OTHER CHARACTER SPRITES HERE
         playerUp1 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyup1.png").getImage();
         playerUp2 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyup2.png").getImage();
         playerUp3 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyup3.png").getImage();
@@ -243,6 +234,7 @@ public class GameManager extends JPanel implements ActionListener {
 
     @Override
     public void paintComponent(Graphics g) {
+        //DRAW LOOP
         super.paintComponent(g);
 
         doDrawing(g);
@@ -259,6 +251,7 @@ public class GameManager extends JPanel implements ActionListener {
     }
 
     class TAdapter extends KeyAdapter {
+        //KEY INPUTS
 
         @Override
         public void keyPressed(KeyEvent e) {
