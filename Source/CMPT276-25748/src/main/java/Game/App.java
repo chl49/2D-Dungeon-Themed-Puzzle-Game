@@ -1,12 +1,33 @@
+
 package Game;
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+
+public class App extends JFrame {
+
+    public App() {
+
+        initUI();
+    }
+
+    private void initUI() {
+
+        add(new GameManager());
+
+        setTitle("App");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(600, 600);
+        setLocationRelativeTo(null);
+    }
+
+    public static void main(String[] args) {
+
+        EventQueue.invokeLater(() -> {
+
+            var ex = new App();
+            ex.setVisible(true);
+        });
     }
 }
+
