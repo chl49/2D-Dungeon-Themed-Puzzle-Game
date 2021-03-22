@@ -120,16 +120,16 @@ public class GameManager extends JPanel implements ActionListener {
 
         switch (AnimPos) {
             case 1:
-                g2d.drawImage(playerUp2, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerUp2, playerX, playerY, this);
                 break;
             case 2:
-                g2d.drawImage(playerUp3, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerUp3, playerX, playerY, this);
                 break;
             case 3:
-                g2d.drawImage(playerUp4, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerUp4, playerX, playerY, this);
                 break;
             default:
-                g2d.drawImage(playerUp1, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerUp1, playerX, playerY, this);
                 break;
         }
     }
@@ -138,16 +138,16 @@ public class GameManager extends JPanel implements ActionListener {
 
         switch (AnimPos) {
             case 1:
-                g2d.drawImage(playerDown2, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerDown2, playerX, playerY, this);
                 break;
             case 2:
-                g2d.drawImage(playerDown3, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerDown3, playerX, playerY, this);
                 break;
             case 3:
-                g2d.drawImage(playerDown4, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerDown4, playerX, playerY, this);
                 break;
             default:
-                g2d.drawImage(playerDown1, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerDown1, playerX, playerY, this);
                 break;
         }
     }
@@ -156,16 +156,16 @@ public class GameManager extends JPanel implements ActionListener {
 
         switch (AnimPos) {
             case 1:
-                g2d.drawImage(playerLeft2, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerLeft2, playerX, playerY, this);
                 break;
             case 2:
-                g2d.drawImage(playerLeft3, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerLeft3, playerX, playerY, this);
                 break;
             case 3:
-                g2d.drawImage(playerLeft4, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerLeft4, playerX, playerY, this);
                 break;
             default:
-                g2d.drawImage(playerLeft1, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerLeft1, playerX, playerY, this);
                 break;
         }
     }
@@ -174,16 +174,16 @@ public class GameManager extends JPanel implements ActionListener {
 
         switch (AnimPos) {
             case 1:
-                g2d.drawImage(playerRight2, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerRight2, playerX, playerY, this);
                 break;
             case 2:
-                g2d.drawImage(playerRight3, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerRight3, playerX, playerY, this);
                 break;
             case 3:
-                g2d.drawImage(playerRight4, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerRight4, playerX, playerY, this);
                 break;
             default:
-                g2d.drawImage(playerRight1, playerX + 1, playerY + 1, this);
+                g2d.drawImage(playerRight1, playerX, playerY, this);
                 break;
         }
     }
