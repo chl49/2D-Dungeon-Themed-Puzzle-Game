@@ -21,6 +21,8 @@ public class AIPathManager
 
     public List<AbstractMap.SimpleEntry<Integer, Integer>> directions;
 
+    public Movable playerRef;
+
     public AIPathManager()
     {
         directions = Arrays.asList(
@@ -33,15 +35,18 @@ public class AIPathManager
         new AbstractMap.SimpleEntry<Integer, Integer>(0, 1), 
         new AbstractMap.SimpleEntry<Integer, Integer>(1, 1)
         );
+
+        //TODO: hook up playerRef (request from GameManager?)
+        //playerRef = GameManager.GetPlayer();
     }
 
     //Uses A* search algorithm
     //https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
 
-    public int GetNextPos(int currentPos)
+    public int getNextPos(int currentPos)
     {
         var startNode = new GridCell(null, currentPos);
-        var endNode = new GridCell(null, playerPos);
+        var endNode = new GridCell(null, playerRef.getPosition());
 
         List<GridCell> openList = new ArrayList<GridCell>();
         List<GridCell> closedList = new ArrayList<GridCell>();
@@ -85,15 +90,15 @@ public class AIPathManager
 
             for(var dir : directions)
             {
-                int xPos = currentNode.pos / rowSize;
-                int yPos = currentNode.pos % rowSize;
+                int rowPos = currentNode.pos / rowSize;
+                int colPos = currentNode.pos % rowSize;
                 
-                xPos += dir.getKey();
-                yPos += dir.getValue();
+                rowPos += dir.getKey();
+                colPos += dir.getValue();
 
                 //TODO: adapt this to movable/nonmovable
                 //O means open/moveable
-                var newPos = xPos * rowSize + yPos;
+                var newPos = rowPos * rowSize + colPos;
 
                 if(newPos >= board.length || board[newPos] != 'O')
                 {
@@ -140,6 +145,22 @@ public class AIPathManager
 
         //if here, no valid moves
         return -1;
+    }
+
+    public void setNextPosition(Movable enemy)
+    {
+        int nextPos = getNextPos(enemy.getPosition());
+        
+        if(nextPos > 0)
+        {
+            enemy.setNextPosition(nextPos);
+        }
+        else
+        {
+            enemy.setNextPosition(enemy.getPosition());
+        }
+
+        //let GameManager call enemy.updatePosition
     }
 
     private class GridCell
