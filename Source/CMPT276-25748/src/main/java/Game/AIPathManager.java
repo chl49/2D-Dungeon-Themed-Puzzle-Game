@@ -85,8 +85,8 @@ public class AIPathManager
 
             for(var dir : directions)
             {
-                int rowPos = currentNode.pos / rowSize;
-                int colPos = currentNode.pos % rowSize;
+                int xPos = currentNode.pos / rowSize;
+                int yPos = currentNode.pos % rowSize;
                 
                 xPos += dir.getKey();
                 yPos += dir.getValue();

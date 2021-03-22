@@ -9,13 +9,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Scanner;
+
 public class GameManager extends JPanel implements ActionListener {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private Dimension d;
     private final int BLOCK_SIZE = 30;
     private final int N_BLOCKS = 20; //20x20 grid perhaps
@@ -36,6 +48,7 @@ public class GameManager extends JPanel implements ActionListener {
     private int cooldown=30;  //TICK TIME
     private Timer timer;
 
+
     public GameManager() {
 
         loadImages();
@@ -44,15 +57,44 @@ public class GameManager extends JPanel implements ActionListener {
     }
 
     private void initBoard() {
+        // String gridString = "";
+        // int noOfRows = 0;
+        // int noOfColumns = 0;
+        // String contentsOfArray = "";
 
         addKeyListener(new TAdapter());
 
         setFocusable(true);
 
         setBackground(Color.black);
-
-        //ADD BOARD CLASS
+        // CREATE BOARD
+        createBoard();
         //ADD BOARD BACKGROUND
+    }
+
+    private void createBoard() {
+        String gridString = "";
+        int noOfRows = 0;
+        int noOfColumns = 0;
+        String contentsOfArray = "";
+        try {
+            Board newBoard = new Board("Source/CMPT276-25748/src/resources/input.txt");
+            Cell[] newCellArray = newBoard.getCellArray();
+            noOfRows = newBoard.getNoOfRows();
+            noOfColumns = newBoard.getNoOfColumns();
+            for (int i = 0; i < (noOfRows*noOfColumns); i++) {
+                contentsOfArray += newCellArray[i].getCellChar();
+            }
+            System.out.println("Contents from the text file: " + newBoard.getFileContent()
+                + "\nNumber of Rows = " + Integer.toString(noOfRows)
+                + "\nNumber of Columns = " + Integer.toString(noOfColumns)
+                + "\nContents from the Cell Array: " + contentsOfArray
+                + "\nTotal number of cells: " + (noOfRows*noOfColumns));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
     private void initVariables() {
@@ -60,7 +102,7 @@ public class GameManager extends JPanel implements ActionListener {
         //ADD INTERACTABLES
         //ADD MOVABLES
 
-        timer = new Timer(60, this);
+        timer = new Timer(30, this);
         timer.start();
     }
 
@@ -204,8 +246,8 @@ public class GameManager extends JPanel implements ActionListener {
 
         //PLAYER AND MOVEABLE START HERE
 
-        playerX = 10 * BLOCK_SIZE; //STARTING LOCATION
-        playerY = 10 * BLOCK_SIZE; //STARTING LOCATION
+        playerX = 7 * BLOCK_SIZE; //STARTING LOCATION
+        playerY = 7 * BLOCK_SIZE; //STARTING LOCATION
         moveX = 0;
         moveY = 0;
     }

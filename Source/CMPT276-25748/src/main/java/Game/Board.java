@@ -1,3 +1,5 @@
+package Game;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,9 +12,9 @@ public class Board {
     String fileContent;
 
     // empty constructor
-    public Board() {
+    // public Board() {
 
-    }
+    // }
 
     // constructor takes the name of an existing text file,
     // reads from the file,
@@ -63,7 +65,7 @@ public class Board {
     // method creates an array of cells with different letters in them for now showing the content of the cell.
     public Cell[] createCellArray() {
 
-        Cell[] newCellArray = new Cell[100];
+        Cell[] newCellArray = new Cell[225];
         for (int i = 0; i < fileContent.length(); i++) {
             newCellArray[i] = new Cell(fileContent.charAt(i));
         }
