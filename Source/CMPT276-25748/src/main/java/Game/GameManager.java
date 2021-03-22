@@ -70,7 +70,7 @@ public class GameManager extends JPanel implements ActionListener {
         // CREATE BOARD
         createBoard();
         //ADD BOARD BACKGROUND
-        AIPathManager AI = new AIPathManager;
+        AIPathManager AI = new AIPathManager();
     }
 
     private void createBoard() {

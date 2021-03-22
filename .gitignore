@@ -1,10 +1,5 @@
-Source/CMPT276-25748/target/classes/Game/AIPathManager.class
-Source/CMPT276-25748/target/classes/Game/AIPathManager$GridCell.class
-Source/CMPT276-25748/target/classes/Game/App.class
-Source/CMPT276-25748/target/test-classes/Game/AppTest.class
-Source/CMPT276-25748/.settings/org.eclipse.core.resources.prefs
-Source/CMPT276-25748/.settings/org.eclipse.jdt.apt.core.prefs
-Source/CMPT276-25748/.settings/org.eclipse.jdt.core.prefs
-Source/CMPT276-25748/.settings/org.eclipse.m2e.core.prefs
+Source/CMPT276-25748/target/
+Source/CMPT276-25748/.settings/
 Source/CMPT276-25748/.classpath
 Source/CMPT276-25748/.project
+
