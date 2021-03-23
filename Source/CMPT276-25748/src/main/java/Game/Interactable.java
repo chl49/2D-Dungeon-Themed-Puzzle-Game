@@ -12,13 +12,11 @@ package Game;
 
     public int getPosition()
     {
-        System.out.println("1");
         return position;
     }
 
     public void setPosition(int position)
     {
-        System.out.println("1");
         this.position = position;
     }
 
