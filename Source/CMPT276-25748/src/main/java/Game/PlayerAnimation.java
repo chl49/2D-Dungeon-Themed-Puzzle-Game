@@ -60,9 +60,7 @@ public class PlayerAnimation {
         }
     }
 
-    public void draw(ImageObserver imageObs, Graphics2D g2d,
-     int dirX, int dirY,
-     int xPos, int yPos) {
+    public void draw(Graphics2D g2d, int dirX, int dirY, int xPos, int yPos) {
 
         if (dirX == -1) {
             Helper.drawImage(leftImages.get(AnimPos), g2d, xPos, yPos);

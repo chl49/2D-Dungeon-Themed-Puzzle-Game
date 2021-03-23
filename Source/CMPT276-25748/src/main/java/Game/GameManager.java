@@ -88,7 +88,7 @@ public class GameManager extends JPanel implements ActionListener {
 
     private void initEntities()
     {
-        player = new Player(this);
+        player = new Player();
         renderables.add(player);
         movables.add(player);
 
