@@ -20,6 +20,7 @@ import java.io.FileReader;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GameManager extends JPanel implements ActionListener {
@@ -29,48 +30,73 @@ public class GameManager extends JPanel implements ActionListener {
      */
     private static final long serialVersionUID = 1L;
     private Dimension d;
-    private final int BLOCK_SIZE = 30;
-    private final int N_BLOCKS = 20; //20x20 grid perhaps
-    private final int SCREEN_SIZE = N_BLOCKS * BLOCK_SIZE; //20*30 = 600 for Length
-    private final int AnimationDelay = 5;
-    private final int AnimationFrames = 4;
-    private final int MoveDistance = BLOCK_SIZE;
+    private final int BLOCK_SIZE = 30;  //sprite size is 30x30 pixels
+    // private final int N_BLOCKS = 20; //20x20 grid perhaps
+    // private final int SCREEN_SIZE = N_BLOCKS * BLOCK_SIZE; //20*30 = 600 for Length
+    
+    //private final int MoveDistance = BLOCK_SIZE;
 
-    private int AnimCooldown = AnimationDelay;
-    private int AnimPos = 0; //Animation Looper
-    private Image playerUp1, playerLeft1, playerRight1, playerDown1;
-    private Image playerUp2, playerLeft2, playerRight2, playerDown2;
-    private Image playerUp3, playerDown3, playerLeft3, playerRight3;
-    private Image playerUp4, playerDown4, playerLeft4, playerRight4;
-
-    private int playerX, playerY;
-    private int moveX, moveY;
-    private int cooldown=30;  //TICK TIME
+    // private int playerX, playerY;
+    // private int moveX, moveY;
+    // private int cooldown=30;  //TICK TIME
     private Timer timer;
 
+    private static GameManager _instance = null;
 
-    public GameManager() {
+    private Board board;
+    private Player player;
+    private ArrayList<Renderable> renderables = new ArrayList<Renderable>();
+    private ArrayList<Movable> movables = new ArrayList<Movable>();
 
-        loadImages();
-        initVariables();
+    public static GameManager instance()
+    {
+        if(_instance == null)
+        {
+            _instance = new GameManager();
+        }
+
+        return _instance;
+    }
+
+    private void init()
+    {
+        initTimer();
         initBoard();
+        initRendering();
+        initEntities();
+        initControls();
+    }
+
+    private void initTimer() {
+        timer = new Timer(30, this);
+        timer.start();
     }
 
     private void initBoard() {
-        // String gridString = "";
-        // int noOfRows = 0;
-        // int noOfColumns = 0;
-        // String contentsOfArray = "";
+        createBoard();
+    }
 
-        addKeyListener(new TAdapter());
+    private void initRendering()
+    {
+        //d = new Dimension(600, 600);
+        d = new Dimension(board.rowSize, board.rowCount);
 
         setFocusable(true);
 
         setBackground(Color.black);
-        // CREATE BOARD
-        createBoard();
-        //ADD BOARD BACKGROUND
-        AIPathManager AI = new AIPathManager();
+    }
+
+    private void initEntities()
+    {
+        player = new Player();
+        renderables.add(player);
+        movables.add(player);
+
+        //TODO: enemies and stuff
+    }
+
+    private void initControls() {
+        addKeyListener(new TAdapter());
     }
 
     private void createBoard() {
@@ -79,14 +105,14 @@ public class GameManager extends JPanel implements ActionListener {
         int noOfColumns = 0;
         String contentsOfArray = "";
         try {
-            Board newBoard = new Board("Source/CMPT276-25748/src/resources/input.txt");
-            Cell[] newCellArray = newBoard.getCellArray();
-            noOfRows = newBoard.getNoOfRows();
-            noOfColumns = newBoard.getNoOfColumns();
+            board = new Board("Source/CMPT276-25748/src/resources/input.txt");
+            Cell[] newCellArray = board.getCellArray();
+            noOfRows = board.getNoOfRows();
+            noOfColumns = board.getNoOfColumns();
             for (int i = 0; i < (noOfRows*noOfColumns); i++) {
                 contentsOfArray += newCellArray[i].getCellChar();
             }
-            System.out.println("Contents from the text file: " + newBoard.getFileContent()
+            System.out.println("Contents from the text file: " + board.getFileContent()
                 + "\nNumber of Rows = " + Integer.toString(noOfRows)
                 + "\nNumber of Columns = " + Integer.toString(noOfColumns)
                 + "\nContents from the Cell Array: " + contentsOfArray
@@ -95,46 +121,25 @@ public class GameManager extends JPanel implements ActionListener {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
-    private void initVariables() {
-        d = new Dimension(600, 600);
-        //ADD INTERACTABLES
-        //ADD MOVABLES
-
-        timer = new Timer(30, this);
-        timer.start();
-    }
+    
 
     @Override
     public void addNotify() {
         //START UP HERE
         super.addNotify();
 
-        initGame();
+        init(); //init game
     }
 
-    private void doAnim() {
+    
 
-        AnimCooldown--;
-
-        if (AnimCooldown <= 0) {
-            AnimCooldown = AnimationDelay;
-            AnimPos++;
-
-            if (AnimPos == AnimationFrames) {
-                AnimPos = 0;
-            }
-        }
-    }
-
-    private void playGame(Graphics2D g2d) {
+  /*   private void playGame(Graphics2D g2d) {
         moveplayer();
-        drawplayer(g2d);
-    }
+    } */
 
-    private void moveplayer() {
+    /* private void moveplayer() {
         // CHECK BOARD CONSTRAINTS HERE
         // MOVE ENEMIES HERE OR CREATE NEW CLASS FOR MOVE ENEMIES IN playGame
         cooldown--;
@@ -144,99 +149,16 @@ public class GameManager extends JPanel implements ActionListener {
             playerX = playerX + MoveDistance * moveX;
             playerY = playerY + MoveDistance * moveY;
         }
-    }
+    } */
 
-    private void drawplayer(Graphics2D g2d) {
+    
 
-        if (moveX == -1) {
-            drawplayerLeft(g2d);
-        } else if (moveX == 1) {
-            drawplayerRight(g2d);
-        } else if (moveY == -1) {
-            drawplayerUp(g2d);
-        } else {
-            drawplayerDown(g2d);
-        }
-    }
-
-    private void drawplayerUp(Graphics2D g2d) {
-
-        switch (AnimPos) {
-            case 1:
-                g2d.drawImage(playerUp2, playerX, playerY, this);
-                break;
-            case 2:
-                g2d.drawImage(playerUp3, playerX, playerY, this);
-                break;
-            case 3:
-                g2d.drawImage(playerUp4, playerX, playerY, this);
-                break;
-            default:
-                g2d.drawImage(playerUp1, playerX, playerY, this);
-                break;
-        }
-    }
-
-    private void drawplayerDown(Graphics2D g2d) {
-
-        switch (AnimPos) {
-            case 1:
-                g2d.drawImage(playerDown2, playerX, playerY, this);
-                break;
-            case 2:
-                g2d.drawImage(playerDown3, playerX, playerY, this);
-                break;
-            case 3:
-                g2d.drawImage(playerDown4, playerX, playerY, this);
-                break;
-            default:
-                g2d.drawImage(playerDown1, playerX, playerY, this);
-                break;
-        }
-    }
-
-    private void drawplayerLeft(Graphics2D g2d) {
-
-        switch (AnimPos) {
-            case 1:
-                g2d.drawImage(playerLeft2, playerX, playerY, this);
-                break;
-            case 2:
-                g2d.drawImage(playerLeft3, playerX, playerY, this);
-                break;
-            case 3:
-                g2d.drawImage(playerLeft4, playerX, playerY, this);
-                break;
-            default:
-                g2d.drawImage(playerLeft1, playerX, playerY, this);
-                break;
-        }
-    }
-
-    private void drawplayerRight(Graphics2D g2d) {
-
-        switch (AnimPos) {
-            case 1:
-                g2d.drawImage(playerRight2, playerX, playerY, this);
-                break;
-            case 2:
-                g2d.drawImage(playerRight3, playerX, playerY, this);
-                break;
-            case 3:
-                g2d.drawImage(playerRight4, playerX, playerY, this);
-                break;
-            default:
-                g2d.drawImage(playerRight1, playerX, playerY, this);
-                break;
-        }
-    }
-
-    private void initGame() {
+    /* private void initGame() {
         //UI DISPLAY HERE
         initLevel();
-    }
+    } */
 
-    private void initLevel() {
+    /* private void initLevel() {
 
         // BOARD AND OBJECTS HERE
 
@@ -251,29 +173,7 @@ public class GameManager extends JPanel implements ActionListener {
         playerY = 7 * BLOCK_SIZE; //STARTING LOCATION
         moveX = 0;
         moveY = 0;
-    }
-
-    private void loadImages() {
-        //SPRITES 
-        //ADD OTHER CHARACTER SPRITES HERE
-        playerUp1 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyup1.png").getImage();
-        playerUp2 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyup2.png").getImage();
-        playerUp3 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyup3.png").getImage();
-        playerUp4 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyup4.png").getImage();
-        playerDown1 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnydown1.png").getImage();
-        playerDown2 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnydown2.png").getImage();
-        playerDown3 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnydown3.png").getImage();
-        playerDown4 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnydown4.png").getImage();
-        playerLeft1 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyleft1.png").getImage();
-        playerLeft2 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyleft2.png").getImage();
-        playerLeft3 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyleft3.png").getImage();
-        playerLeft4 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyleft4.png").getImage();
-        playerRight1 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyright1.png").getImage();
-        playerRight2 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyright2.png").getImage();
-        playerRight3 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyright3.png").getImage();
-        playerRight4 = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyright4.png").getImage();
-
-    }
+    } */
 
     @Override
     public void paintComponent(Graphics g) {
@@ -289,8 +189,13 @@ public class GameManager extends JPanel implements ActionListener {
 
         g2d.setColor(Color.black);
         g2d.fillRect(0, 0, d.width, d.height);
-        doAnim();
-        playGame(g2d);
+
+        for(var r : renderables)
+        {
+            if(r.isVisible())
+                r.draw(g2d);
+        }
+        //doAnim();
     }
 
     class TAdapter extends KeyAdapter {
@@ -298,6 +203,9 @@ public class GameManager extends JPanel implements ActionListener {
 
         @Override
         public void keyPressed(KeyEvent e) {
+
+            int moveX = 0;
+            int moveY = 0;
 
             int key = e.getKeyCode();
             if (key == KeyEvent.VK_LEFT) {
@@ -320,13 +228,32 @@ public class GameManager extends JPanel implements ActionListener {
                 }
             }
 
-            
+            player.setNextPosition(Helper.move(player.getPosition(), moveX, moveY));
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        updateMovables();
         repaint();
+    }
+
+    private void updateMovables()
+    {
+        for(var m : movables)
+        {
+            m.updatePosition();
+        }
+    }
+
+    public Board getBoard()
+    {
+        return board;
+    }
+
+    public void drawImage(Image image, Graphics2D g2d, int xPos, int yPos)
+    {
+        g2d.drawImage(image, xPos * BLOCK_SIZE, yPos * BLOCK_SIZE, this);
     }
 }

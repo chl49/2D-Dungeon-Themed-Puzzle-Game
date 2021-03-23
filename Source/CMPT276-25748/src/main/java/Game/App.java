@@ -6,12 +6,6 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Scanner;
-
 public class App extends JFrame {
 
     public App() {
@@ -20,7 +14,7 @@ public class App extends JFrame {
     }
 
     private void initUI() {
-        add(new GameManager());
+        add(GameManager.instance());
 
         setTitle("App");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
