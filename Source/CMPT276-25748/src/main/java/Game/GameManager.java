@@ -45,10 +45,12 @@ public class GameManager extends JPanel implements ActionListener {
 
     private Board board;
     private Player player;
+    private Rewards rewards;
     private ArrayList<Renderable> renderables = new ArrayList<Renderable>();
     private ArrayList<Movable> movables = new ArrayList<Movable>();
     private AIPathManager pathManager;
     private boolean isDirty = false;
+    private ArrayList<Interactable> interactable = new ArrayList<Interactable>();
 
     public static GameManager instance()
     {
@@ -82,8 +84,8 @@ public class GameManager extends JPanel implements ActionListener {
 
     private void initRendering()
     {
-        //d = new Dimension(600, 600);
-        d = new Dimension(board.rowSize, board.rowCount);
+        d = new Dimension(600, 600);
+        //d = new Dimension(board.rowSize, board.rowCount);
 
         setFocusable(true);
 
@@ -96,6 +98,11 @@ public class GameManager extends JPanel implements ActionListener {
         renderables.add(player);
         movables.add(player);
         player.setPosition(16);
+
+        rewards = new Rewards();
+        renderables.add(rewards);
+        interactable.add(rewards);
+        //Rewards.setPosition(15);
 
         //TODO: enemies and stuff
         Enemy enemy = new Enemy();
@@ -253,6 +260,8 @@ public class GameManager extends JPanel implements ActionListener {
         }
         
         
+        updateMovables();
+
         repaint();
     }
 
