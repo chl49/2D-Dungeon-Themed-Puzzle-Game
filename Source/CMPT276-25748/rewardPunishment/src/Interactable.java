@@ -7,8 +7,18 @@ Requires: current player position
 package Game;
 abstract public class Interactable extends Entity{
     //call game manager to check valid move
-    int i = get Row();
-    int j = get Col();
-    int result = CheckCollisions (i, j);
+    protected int position = 0;
+    protected int score = 0;
+
+    public int getPosition()
+    {
+        return position;
+    }
+
+    public int getScore()
+    {
+        return score;
+    }
+
 
 }
