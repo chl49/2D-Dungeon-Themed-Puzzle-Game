@@ -30,15 +30,15 @@ public class GameManager extends JPanel implements ActionListener {
      */
     private static final long serialVersionUID = 1L;
     private Dimension d;
-    private final int BLOCK_SIZE = 30;
-    private final int N_BLOCKS = 20; //20x20 grid perhaps
-    private final int SCREEN_SIZE = N_BLOCKS * BLOCK_SIZE; //20*30 = 600 for Length
+    private final int BLOCK_SIZE = 30;  //sprite size is 30x30 pixels
+    // private final int N_BLOCKS = 20; //20x20 grid perhaps
+    // private final int SCREEN_SIZE = N_BLOCKS * BLOCK_SIZE; //20*30 = 600 for Length
     
-    private final int MoveDistance = BLOCK_SIZE;
+    //private final int MoveDistance = BLOCK_SIZE;
 
-    private int playerX, playerY;
-    private int moveX, moveY;
-    private int cooldown=30;  //TICK TIME
+    // private int playerX, playerY;
+    // private int moveX, moveY;
+    // private int cooldown=30;  //TICK TIME
     private Timer timer;
 
     private static GameManager _instance = null;
@@ -46,13 +46,13 @@ public class GameManager extends JPanel implements ActionListener {
     private Board board;
     private Player player;
     private ArrayList<Renderable> renderables = new ArrayList<Renderable>();
+    private ArrayList<Movable> movables = new ArrayList<Movable>();
 
     public static GameManager instance()
     {
         if(_instance == null)
         {
             _instance = new GameManager();
-            _instance.init();
         }
 
         return _instance;
@@ -64,8 +64,7 @@ public class GameManager extends JPanel implements ActionListener {
         initBoard();
         initRendering();
         initEntities();
-
-        //TODO: init controls
+        initControls();
     }
 
     private void initTimer() {
@@ -74,15 +73,13 @@ public class GameManager extends JPanel implements ActionListener {
     }
 
     private void initBoard() {
-
-        addKeyListener(new TAdapter()); //TODO: move this to init controls
-
         createBoard();
     }
 
     private void initRendering()
     {
-        d = new Dimension(600, 600);
+        //d = new Dimension(600, 600);
+        d = new Dimension(board.rowSize, board.rowCount);
 
         setFocusable(true);
 
@@ -93,8 +90,13 @@ public class GameManager extends JPanel implements ActionListener {
     {
         player = new Player(this);
         renderables.add(player);
+        movables.add(player);
 
         //TODO: enemies and stuff
+    }
+
+    private void initControls() {
+        addKeyListener(new TAdapter());
     }
 
     private void createBoard() {
@@ -128,7 +130,7 @@ public class GameManager extends JPanel implements ActionListener {
         //START UP HERE
         super.addNotify();
 
-        initGame();
+        init(); //init game
     }
 
     
@@ -137,7 +139,7 @@ public class GameManager extends JPanel implements ActionListener {
         moveplayer();
     } */
 
-    private void moveplayer() {
+    /* private void moveplayer() {
         // CHECK BOARD CONSTRAINTS HERE
         // MOVE ENEMIES HERE OR CREATE NEW CLASS FOR MOVE ENEMIES IN playGame
         cooldown--;
@@ -147,16 +149,16 @@ public class GameManager extends JPanel implements ActionListener {
             playerX = playerX + MoveDistance * moveX;
             playerY = playerY + MoveDistance * moveY;
         }
-    }
+    } */
 
     
 
-    private void initGame() {
+    /* private void initGame() {
         //UI DISPLAY HERE
         initLevel();
-    }
+    } */
 
-    private void initLevel() {
+    /* private void initLevel() {
 
         // BOARD AND OBJECTS HERE
 
@@ -171,7 +173,7 @@ public class GameManager extends JPanel implements ActionListener {
         playerY = 7 * BLOCK_SIZE; //STARTING LOCATION
         moveX = 0;
         moveY = 0;
-    }
+    } */
 
     @Override
     public void paintComponent(Graphics g) {
@@ -202,6 +204,9 @@ public class GameManager extends JPanel implements ActionListener {
         @Override
         public void keyPressed(KeyEvent e) {
 
+            int moveX = 0;
+            int moveY = 0;
+
             int key = e.getKeyCode();
             if (key == KeyEvent.VK_LEFT) {
                 moveX = -1;
@@ -223,18 +228,32 @@ public class GameManager extends JPanel implements ActionListener {
                 }
             }
 
-            
+            player.setNextPosition(Helper.move(player.getPosition(), moveX, moveY));
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        updateMovables();
         repaint();
+    }
+
+    private void updateMovables()
+    {
+        for(var m : movables)
+        {
+            m.updatePosition();
+        }
     }
 
     public Board getBoard()
     {
         return board;
+    }
+
+    public void drawImage(Image image, Graphics2D g2d, int xPos, int yPos)
+    {
+        g2d.drawImage(image, xPos * BLOCK_SIZE, yPos * BLOCK_SIZE, this);
     }
 }

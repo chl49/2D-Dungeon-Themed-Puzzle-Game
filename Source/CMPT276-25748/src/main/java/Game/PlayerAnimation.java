@@ -13,9 +13,6 @@ public class PlayerAnimation {
     private int AnimCooldown = AnimationDelay;
     private int AnimPos = 0; //Animation Looper
 
-    //protected int xPos = 0;
-    //protected int yPos = 0;
-
     ArrayList<Image> upImages;
     ArrayList<Image> downImages;
     ArrayList<Image> leftImages;
@@ -63,24 +60,18 @@ public class PlayerAnimation {
         }
     }
 
-    /* public void setPosition(int position)
-    {
-        xPos = Helper.rowPos(position);
-        yPos = Helper.colPos(position);
-    } */
-
     public void draw(ImageObserver imageObs, Graphics2D g2d,
      int dirX, int dirY,
      int xPos, int yPos) {
 
         if (dirX == -1) {
-            g2d.drawImage(leftImages.get(AnimPos), xPos, yPos, imageObs);
+            Helper.drawImage(leftImages.get(AnimPos), g2d, xPos, yPos);
         } else if (dirX == 1) {
-            g2d.drawImage(rightImages.get(AnimPos), xPos, yPos, imageObs);
+            Helper.drawImage(rightImages.get(AnimPos), g2d, xPos, yPos);
         } else if (dirY == -1) {
-            g2d.drawImage(upImages.get(AnimPos), xPos, yPos, imageObs);
+            Helper.drawImage(upImages.get(AnimPos), g2d, xPos, yPos);
         } else {
-            g2d.drawImage(downImages.get(AnimPos), xPos, yPos, imageObs);
+            Helper.drawImage(downImages.get(AnimPos), g2d, xPos, yPos);
         }
     }
 }

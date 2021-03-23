@@ -6,12 +6,6 @@ import java.io.IOException;
 
 import javax.swing.JFrame;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Scanner;
-
 public class App extends JFrame {
 
     public App() {

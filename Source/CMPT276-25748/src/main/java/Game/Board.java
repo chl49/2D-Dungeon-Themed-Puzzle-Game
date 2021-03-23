@@ -86,12 +86,12 @@ public class Board {
 
     public int calcRowPos(int position)
     {
-        return position / rowSize;
+        return position % rowSize;
     }
 
     public int calcColPos(int position)
     {
-        return position % rowSize;
+        return position / rowSize;
     }
 
 }
