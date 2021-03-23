@@ -84,14 +84,32 @@ public class Board {
         return cellArray;
     }
 
-    public int calcRowPos(int position)
+    public int calcXPos(int position)
     {
         return position % rowSize;
     }
 
-    public int calcColPos(int position)
+    public int calcYPos(int position)
     {
         return position / rowSize;
+    }
+
+    public int calcPosFrom2D(int x, int y)
+    {
+        return y * rowSize + x;
+    }
+
+    public boolean isEmpty(int position)
+    {
+        if(position >= 0 && position < cellArray.length)
+        {
+            if(cellArray[position].cellChar == 'w')
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }
