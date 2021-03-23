@@ -15,11 +15,11 @@ public class Player extends Movable implements Renderable{
     @Override
     public void draw(Graphics2D g2d) {
         
-        int xPos = Helper.rowPos(pos);
-        int yPos = Helper.colPos(pos);
+        int xPos = Helper.xPos(pos);
+        int yPos = Helper.yPos(pos);
 
-        int xDir = Helper.rowPos(nextPos) - xPos;
-        int yDir = Helper.colPos(nextPos) - yPos;
+        int xDir = Helper.xPos(nextPos) - xPos;
+        int yDir = Helper.yPos(nextPos) - yPos;
 
         render.draw(g2d, xDir, yDir, xPos, yPos);
         

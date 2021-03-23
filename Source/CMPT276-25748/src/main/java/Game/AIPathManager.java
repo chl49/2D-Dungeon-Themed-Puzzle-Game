@@ -15,15 +15,12 @@ import java.util.ArrayList;
 
 public class AIPathManager 
 {
-    public int playerPos;
-    public char[] board;
-    public int rowSize;
-
     public List<AbstractMap.SimpleEntry<Integer, Integer>> directions;
 
-    public Movable playerRef;
+    public Player playerRef;
+    public Board boardRef;
 
-    public AIPathManager()
+    public AIPathManager(Player player, Board board)
     {
         directions = Arrays.asList(
         new AbstractMap.SimpleEntry<Integer, Integer>(1, 0),
@@ -36,8 +33,8 @@ public class AIPathManager
         new AbstractMap.SimpleEntry<Integer, Integer>(1, 1)
         );
 
-        //TODO: hook up playerRef (request from GameManager?)
-        //playerRef = GameManager.GetPlayer();
+        playerRef = player;
+        boardRef = board;
     }
 
     //Uses A* search algorithm
@@ -83,24 +80,40 @@ public class AIPathManager
                     current = current.parent;
                 }
 
-                return path.get(path.size()-1).pos;
+                int count = 1;
+                int nextPos = currentPos;
+
+                while(nextPos == currentPos 
+                && (path.size() - count) >= 0)
+                {
+                    nextPos = path.get(path.size()-count).pos;
+                    count++;
+                }
+
+                return nextPos;
             }
 
             var children = new ArrayList<GridCell>();
 
             for(var dir : directions)
             {
-                int rowPos = currentNode.pos / rowSize;
-                int colPos = currentNode.pos % rowSize;
+                int xPos = Helper.xPos(currentNode.pos);
+                int yPos = Helper.yPos(currentNode.pos);
                 
-                rowPos += dir.getKey();
-                colPos += dir.getValue();
+                xPos += dir.getKey();
+                yPos += dir.getValue();
+
+                if(xPos < 0 || xPos >= boardRef.rowSize
+                || yPos < 0 || yPos >= boardRef.rowCount)
+                {
+                    continue;
+                }
 
                 //TODO: adapt this to movable/nonmovable
                 //O means open/moveable
-                var newPos = rowPos * rowSize + colPos;
+                var newPos = Helper.getPosFrom2D(xPos, yPos);
 
-                if(newPos >= board.length || board[newPos] != 'O')
+                if(!boardRef.isEmpty(newPos))
                 {
                     continue;
                 }
@@ -119,11 +132,10 @@ public class AIPathManager
                     }
                 }
 
-                int childXPos = child.pos / rowSize;
-                int childYPos = child.pos % rowSize;
-
-                int endXPos = endNode.pos / rowSize;
-                int endYPos = endNode.pos % rowSize;
+                int childXPos = Helper.xPos(child.pos);
+                int childYPos = Helper.yPos(child.pos);
+                int endXPos = Helper.xPos(endNode.pos);
+                int endYPos = Helper.yPos(endNode.pos);
 
                 //distance formula between two 2D points before the root
                 child.h = (float)(Math.pow((float)(childXPos - endXPos), 2) + Math.pow((float)(childYPos - endYPos), 2));
@@ -159,8 +171,6 @@ public class AIPathManager
         {
             enemy.setNextPosition(enemy.getPosition());
         }
-
-        //let GameManager call enemy.updatePosition
     }
 
     private class GridCell

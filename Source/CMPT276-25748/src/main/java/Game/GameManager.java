@@ -47,6 +47,8 @@ public class GameManager extends JPanel implements ActionListener {
     private Player player;
     private ArrayList<Renderable> renderables = new ArrayList<Renderable>();
     private ArrayList<Movable> movables = new ArrayList<Movable>();
+    private AIPathManager pathManager;
+    private boolean isDirty = false;
 
     public static GameManager instance()
     {
@@ -65,6 +67,8 @@ public class GameManager extends JPanel implements ActionListener {
         initRendering();
         initEntities();
         initControls();
+        
+        pathManager = new AIPathManager(player, board);
     }
 
     private void initTimer() {
@@ -93,6 +97,10 @@ public class GameManager extends JPanel implements ActionListener {
         movables.add(player);
 
         //TODO: enemies and stuff
+        Enemy enemy = new Enemy();
+        renderables.add(enemy);
+        movables.add(enemy);
+        enemy.setPosition(10);
     }
 
     private void initControls() {
@@ -229,14 +237,27 @@ public class GameManager extends JPanel implements ActionListener {
             }
 
             player.setNextPosition(Helper.move(player.getPosition(), moveX, moveY));
+            isDirty = true;
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        updateMovables();
+        if(isDirty)
+        {
+            updateGameLogic();
+            isDirty = false;
+        }
+        
+        
         repaint();
+    }
+
+    private void updateGameLogic()
+    {
+        updateEnemyPathing();
+        updateMovables();
     }
 
     private void updateMovables()
@@ -244,6 +265,17 @@ public class GameManager extends JPanel implements ActionListener {
         for(var m : movables)
         {
             m.updatePosition();
+        }
+    }
+
+    private void updateEnemyPathing()
+    {
+        for(var m : movables)
+        {
+            if(m instanceof Enemy)
+            {
+                pathManager.setNextPosition(m);
+            }
         }
     }
 
