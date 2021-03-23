@@ -84,4 +84,14 @@ public class Board {
         return cellArray;
     }
 
+    public int calcRowPos(int position)
+    {
+        return position / rowSize;
+    }
+
+    public int calcColPos(int position)
+    {
+        return position % rowSize;
+    }
+
 }
