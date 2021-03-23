@@ -33,5 +33,10 @@ public class Player extends Movable implements Renderable{
         render.draw(imageObs, g2d, xDir, yDir, xPos, yPos);
         
     }
+
+    @Override
+    public boolean isVisible() {
+        return true;
+    }
     
 }

@@ -74,17 +74,10 @@ public class GameManager extends JPanel implements ActionListener {
     }
 
     private void initBoard() {
-        // String gridString = "";
-        // int noOfRows = 0;
-        // int noOfColumns = 0;
-        // String contentsOfArray = "";
 
         addKeyListener(new TAdapter()); //TODO: move this to init controls
 
-        // CREATE BOARD
         createBoard();
-        //ADD BOARD BACKGROUND
-        AIPathManager AI = new AIPathManager();
     }
 
     private void initRendering()
@@ -140,10 +133,9 @@ public class GameManager extends JPanel implements ActionListener {
 
     
 
-    private void playGame(Graphics2D g2d) {
+  /*   private void playGame(Graphics2D g2d) {
         moveplayer();
-        drawplayer(g2d);
-    }
+    } */
 
     private void moveplayer() {
         // CHECK BOARD CONSTRAINTS HERE
@@ -198,7 +190,8 @@ public class GameManager extends JPanel implements ActionListener {
 
         for(var r : renderables)
         {
-            r.draw(g2d);
+            if(r.isVisible())
+                r.draw(g2d);
         }
         //doAnim();
     }

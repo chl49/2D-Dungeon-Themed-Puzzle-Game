@@ -20,7 +20,7 @@ public class App extends JFrame {
     }
 
     private void initUI() {
-        add(new GameManager());
+        add(GameManager.instance());
 
         setTitle("App");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
