@@ -15,6 +15,21 @@ public class Helper {
         return GameManager.instance().getBoard().calcColPos(position);
     }
 
+    public static int[] get2Dpos(int position)
+    {
+        int xPos = Helper.rowPos(position);
+        int yPos = Helper.colPos(position);
+
+        return new int[]{xPos, yPos};
+    }
+
+    public static int[] get2Dpos(Movable movable)
+    {
+        var pos2D = Helper.get2Dpos(movable.getPosition());
+        return pos2D;
+    }
+    
+
     public static int move(int position, int xDir, int yDir)
     {
         int newPos = position;
