@@ -236,15 +236,10 @@ public class GameManager extends JPanel implements ActionListener {
 
     private void updateMovables()
     {
-        // for(var m : movables)
-        // {
-        //     m.updatePosition();
-        // }
         for(var m : movables)
         {
             Cell[] newCellArray = board.getCellArray();
             if(newCellArray[m.getNextPosition()].getCellChar() != 'o') {
-                System.out.println("WALL HIT");
                 m.setNextPosition(m.getPosition());
             }
             m.updatePosition();

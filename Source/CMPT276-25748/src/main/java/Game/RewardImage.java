@@ -15,6 +15,5 @@ public class RewardImage {
    public void draw(Graphics2D g2d, int xPos, int yPos)
    {
        Helper.drawImage(image, g2d, xPos, yPos);
-       System.out.println("1");
    }
 }
