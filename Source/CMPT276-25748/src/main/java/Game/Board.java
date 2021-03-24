@@ -107,13 +107,13 @@ public class Board implements Renderable {
     {
         if(position >= 0 && position < cellArray.length)
         {
-            if(cellArray[position].cellChar == 'w')
+            if(cellArray[position].cellChar == 'o')
             {
-                return false;
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     // @Override

@@ -24,13 +24,13 @@ public class AIPathManager
     {
         directions = Arrays.asList(
         new AbstractMap.SimpleEntry<Integer, Integer>(1, 0),
-        new AbstractMap.SimpleEntry<Integer, Integer>(1, -1), 
+        //new AbstractMap.SimpleEntry<Integer, Integer>(1, -1), 
         new AbstractMap.SimpleEntry<Integer, Integer>(0, -1), 
-        new AbstractMap.SimpleEntry<Integer, Integer>(-1, -1), 
+        //new AbstractMap.SimpleEntry<Integer, Integer>(-1, -1), 
         new AbstractMap.SimpleEntry<Integer, Integer>(-1, 0), 
-        new AbstractMap.SimpleEntry<Integer, Integer>(-1, 1), 
-        new AbstractMap.SimpleEntry<Integer, Integer>(0, 1), 
-        new AbstractMap.SimpleEntry<Integer, Integer>(1, 1)
+        //new AbstractMap.SimpleEntry<Integer, Integer>(-1, 1), 
+        new AbstractMap.SimpleEntry<Integer, Integer>(0, 1)
+        //new AbstractMap.SimpleEntry<Integer, Integer>(1, 1)
         );
 
         playerRef = player;
@@ -43,7 +43,14 @@ public class AIPathManager
     public int getNextPos(int currentPos)
     {
         var startNode = new GridCell(null, currentPos);
-        var endNode = new GridCell(null, playerRef.getPosition());
+
+        var targetPlayerPos = playerRef.getNextPosition();
+        if(!boardRef.isEmpty(playerRef.getNextPosition()))
+        {
+            targetPlayerPos = playerRef.getPosition();
+        }
+
+        var endNode = new GridCell(null, targetPlayerPos);
 
         List<GridCell> openList = new ArrayList<GridCell>();
         List<GridCell> closedList = new ArrayList<GridCell>();
@@ -139,6 +146,7 @@ public class AIPathManager
 
                 //distance formula between two 2D points before the root
                 child.h = (float)(Math.pow((float)(childXPos - endXPos), 2) + Math.pow((float)(childYPos - endYPos), 2));
+                //child.h = (float)Math.pow(child.h, 0.5f) * 0.5f;  //square root to get magnitude
 
                 child.g = currentNode.g + 1;
                 child.f = child.g + child.h;
