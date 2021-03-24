@@ -109,6 +109,11 @@ public class GameManager extends JPanel implements ActionListener {
         renderables.add(enemy);
         movables.add(enemy);
         enemy.setPosition(10);
+
+        Rewards reward = new Rewards();
+        renderables.add(reward);
+        interactable.add(reward);
+        reward.setPosition(15);
     }
 
     private void initControls() {
