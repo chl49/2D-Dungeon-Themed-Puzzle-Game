@@ -79,7 +79,7 @@ public class GameManager extends JPanel implements ActionListener {
         initControls();
         
         pathManager = new AIPathManager(player, board);
-        scoreManager = new ScoreManager(1); //TODO: make this 5 the number of required rewards from the board
+        scoreManager = new ScoreManager(5); //TODO: make this 5 the number of required rewards from the board
     }
 
     private void initTimer() {
@@ -117,6 +117,22 @@ public class GameManager extends JPanel implements ActionListener {
         Rewards reward = new Rewards(18, 1);
         renderables.add(reward);
         interactable.add(reward);
+
+        Rewards reward2 = new Rewards(200, 1);
+        renderables.add(reward2);
+        interactable.add(reward2);
+
+        Rewards reward3 = new Rewards(174, 1);
+        renderables.add(reward3);
+        interactable.add(reward3);
+
+        Rewards reward4 = new Rewards(34, 1);
+        renderables.add(reward4);
+        interactable.add(reward4);
+
+        Rewards reward5 = new Rewards(65, 1);
+        renderables.add(reward5);
+        interactable.add(reward5);
     }
 
     private void initControls() {
