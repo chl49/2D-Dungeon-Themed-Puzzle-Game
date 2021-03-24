@@ -10,7 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
-
+import java.awt.Font;
+import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -48,9 +49,15 @@ public class GameManager extends JPanel implements ActionListener {
     private Rewards rewards;
     private ArrayList<Renderable> renderables = new ArrayList<Renderable>();
     private ArrayList<Movable> movables = new ArrayList<Movable>();
+    private Image winScreen = new ImageIcon("Source/CMPT276-25748/src/sprite/win.png").getImage();
+    private Image loseScreen = new ImageIcon("Source/CMPT276-25748/src/sprite/lose.png").getImage();
     private AIPathManager pathManager;
     private ScoreManager scoreManager;
     private boolean isDirty = false;
+    private boolean inGame = true;
+    private int screenSwitch = 0;
+    private String score = "Score:";
+    private String message = score+"0";
     private ArrayList<Interactable> interactable = new ArrayList<Interactable>();
 
     public static GameManager instance()
@@ -110,6 +117,22 @@ public class GameManager extends JPanel implements ActionListener {
         Rewards reward = new Rewards(18, 1);
         renderables.add(reward);
         interactable.add(reward);
+
+        Rewards reward2 = new Rewards(200, 1);
+        renderables.add(reward2);
+        interactable.add(reward2);
+
+        Rewards reward3 = new Rewards(174, 1);
+        renderables.add(reward3);
+        interactable.add(reward3);
+
+        Rewards reward4 = new Rewards(34, 1);
+        renderables.add(reward4);
+        interactable.add(reward4);
+
+        Rewards reward5 = new Rewards(65, 1);
+        renderables.add(reward5);
+        interactable.add(reward5);
     }
 
     private void initControls() {
@@ -165,11 +188,32 @@ public class GameManager extends JPanel implements ActionListener {
 
         g2d.setColor(Color.black);
         g2d.fillRect(0, 0, d.width, d.height);
-
-        for(var r : renderables)
-        {
+        if(inGame){
+            for(var r : renderables)
+          {
             if(r.isVisible())
                 r.draw(g2d);
+          }
+          var small = new Font("Helvetica", Font.BOLD, 14);
+          var fontMetrics = this.getFontMetrics(small);
+
+          g.setColor(Color.black);
+          g.setFont(small);
+          //fontMetrics.stringWidth(message)
+          g.drawString(message, 0, 10);
+        }
+        else{
+            switch(screenSwitch){
+                case 1:
+                  Helper.drawImage(winScreen, g2d, 0, 0);
+                  break;
+                case 2:
+                  Helper.drawImage(loseScreen, g2d, 0, 0);
+                  break;
+                default:
+                  System.out.println("screenError");
+                  break;
+              }
         }
     }
 
@@ -230,6 +274,9 @@ public class GameManager extends JPanel implements ActionListener {
         //check win/lose conditions
         if(checkGameConditions())
         {
+            //System.out.println("Game Ends");
+            inGame=false;
+
             //game is over, handle it
         }
     }
@@ -271,6 +318,10 @@ public class GameManager extends JPanel implements ActionListener {
                 if(i instanceof Rewards)
                 {
                     scoreManager.addRequiredReward(i.getScore());
+                    System.out.println(scoreManager.getRequiredRewardsCollected());
+                    System.out.println(scoreManager.hasReachedRewardsGoal());
+                    System.out.println(scoreManager.hasReachedRewardsGoal());
+                    message=score+String.valueOf(scoreManager.getTotalScore());
                 }
 
                 //TODO: implement penalty
@@ -290,6 +341,7 @@ public class GameManager extends JPanel implements ActionListener {
         if(scoreManager.hasReachedRewardsGoal())
         {
             //win!
+            screenSwitch=1;
             return true;
         }
 
@@ -300,6 +352,7 @@ public class GameManager extends JPanel implements ActionListener {
                 if(m.getPosition() == player.getPosition())
                 {
                     //lose!
+                    screenSwitch=2;
                     return true;
                 }
             }
