@@ -95,12 +95,13 @@ public class GameManager extends JPanel implements ActionListener {
         player = new Player();
         renderables.add(player);
         movables.add(player);
+        player.setPosition(16);
 
         //TODO: enemies and stuff
         Enemy enemy = new Enemy();
         renderables.add(enemy);
         movables.add(enemy);
-        enemy.setPosition(10);
+        enemy.setPosition(25);
     }
 
     private void initControls() {
@@ -114,6 +115,7 @@ public class GameManager extends JPanel implements ActionListener {
         String contentsOfArray = "";
         try {
             board = new Board("Source/CMPT276-25748/src/resources/input.txt");
+            renderables.add(board);
             Cell[] newCellArray = board.getCellArray();
             noOfRows = board.getNoOfRows();
             noOfColumns = board.getNoOfColumns();
@@ -235,8 +237,8 @@ public class GameManager extends JPanel implements ActionListener {
                     timer.start();
                 }
             }
-
             player.setNextPosition(Helper.move(player.getPosition(), moveX, moveY));
+            //player.setNextPosition(Helper.move(player.getPosition(), moveX, moveY));
             isDirty = true;
         }
     }
@@ -262,8 +264,17 @@ public class GameManager extends JPanel implements ActionListener {
 
     private void updateMovables()
     {
+        // for(var m : movables)
+        // {
+        //     m.updatePosition();
+        // }
         for(var m : movables)
         {
+            Cell[] newCellArray = board.getCellArray();
+            if(newCellArray[m.getNextPosition()].getCellChar() != 'o') {
+                System.out.println("WALL HIT");
+                m.setNextPosition(m.getPosition());
+            }
             m.updatePosition();
         }
     }

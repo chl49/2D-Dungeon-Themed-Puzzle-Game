@@ -1,11 +1,15 @@
 package Game;
 
+import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
-public class Board {
+public class Board implements Renderable {
 
+    private Image image = new ImageIcon("Source/CMPT276-25748/src/sprite/map.png").getImage();
     int rowCount;
     int rowSize;
     Cell [] cellArray;
@@ -109,6 +113,26 @@ public class Board {
             }
         }
 
+        return true;
+    }
+
+    // @Override
+    // public void draw(Graphics2D g2d) {
+    //     // TODO Auto-generated method stub
+        
+    // }
+    @Override
+    public void draw(Graphics2D g2d) {
+        Helper.drawImage(image, g2d, 0, 0);
+    }
+
+    // @Override
+    // public boolean isVisible() {
+    //     // TODO Auto-generated method stub
+    //     return false;
+    // }
+    @Override
+    public boolean isVisible() {
         return true;
     }
 
