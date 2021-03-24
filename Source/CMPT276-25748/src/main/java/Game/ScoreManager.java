@@ -1,0 +1,44 @@
+package Game;
+
+public class ScoreManager {
+    
+    private int requiredRewards = 0;
+    private int totalScore = 0;
+    private int rewardsGoal = -1;
+
+    public ScoreManager(int rewardsGoal)
+    {
+        this.rewardsGoal = rewardsGoal;
+    }
+
+    public void addRequiredReward(int score)
+    {
+        requiredRewards++;
+        totalScore += score;
+    }
+
+    public void addBonusReward(int score)
+    {
+        totalScore += score;
+    }
+
+    public void addPenalty(int score)
+    {
+        totalScore -= score;
+    }
+
+    public int getTotalScore()
+    {
+        return totalScore;
+    }
+
+    public int getRequiredRewardsCollected()
+    {
+        return requiredRewards;
+    }
+
+    public boolean hasReachedRewardsGoal()
+    {
+        return requiredRewards >= rewardsGoal;
+    }
+}
