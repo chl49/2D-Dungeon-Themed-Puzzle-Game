@@ -1,10 +1,10 @@
 package Game;
 
+public class Interactable {
 
-public class Interactable /*extends Entity*/{
-   //call game manager to check valid move
    protected int position;
    protected int score = 0;
+   protected boolean isActive = false;
  
    public int getPosition()
    {
@@ -19,6 +19,16 @@ public class Interactable /*extends Entity*/{
    public int getScore()
    {
        return score;
+   }
+
+   public boolean isActive()
+   {
+       return isActive;
+   }
+
+   public void setActive(boolean isActive)
+   {
+       this.isActive = isActive;
    }
  
 }

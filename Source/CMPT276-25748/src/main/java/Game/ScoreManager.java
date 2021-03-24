@@ -4,20 +4,13 @@ public class ScoreManager {
     
     private int requiredRewards = 0;
     private int totalScore = 0;
+    private int rewardsGoal = -1;
 
-    private static ScoreManager _instance = null;
-
-    public static ScoreManager instance()
+    public ScoreManager(int rewardsGoal)
     {
-        if(_instance == null)
-        {
-            _instance = new ScoreManager();
-        }
-
-        return _instance;
+        this.rewardsGoal = rewardsGoal;
     }
 
-    //
     public void addRequiredReward(int score)
     {
         requiredRewards++;
@@ -42,5 +35,10 @@ public class ScoreManager {
     public int getRequiredRewardsCollected()
     {
         return requiredRewards;
+    }
+
+    public boolean hasReachedRewardsGoal()
+    {
+        return requiredRewards >= rewardsGoal;
     }
 }

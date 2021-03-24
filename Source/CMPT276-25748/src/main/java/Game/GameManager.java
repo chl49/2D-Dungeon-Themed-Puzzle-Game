@@ -49,6 +49,7 @@ public class GameManager extends JPanel implements ActionListener {
     private ArrayList<Renderable> renderables = new ArrayList<Renderable>();
     private ArrayList<Movable> movables = new ArrayList<Movable>();
     private AIPathManager pathManager;
+    private ScoreManager scoreManager;
     private boolean isDirty = false;
     private ArrayList<Interactable> interactable = new ArrayList<Interactable>();
 
@@ -71,6 +72,7 @@ public class GameManager extends JPanel implements ActionListener {
         initControls();
         
         pathManager = new AIPathManager(player, board);
+        scoreManager = new ScoreManager(5); //TODO: make this 5 the number of required rewards from the board
     }
 
     private void initTimer() {
@@ -99,21 +101,15 @@ public class GameManager extends JPanel implements ActionListener {
         movables.add(player);
         player.setPosition(16);
 
-        rewards = new Rewards();
-        renderables.add(rewards);
-        interactable.add(rewards);
-        //Rewards.setPosition(15);
-
         //TODO: enemies and stuff
         Enemy enemy = new Enemy();
         renderables.add(enemy);
         movables.add(enemy);
         enemy.setPosition(10);
 
-        Rewards reward = new Rewards();
+        Rewards reward = new Rewards(18, 1);
         renderables.add(reward);
         interactable.add(reward);
-        reward.setPosition(15);
     }
 
     private void initControls() {
@@ -155,48 +151,6 @@ public class GameManager extends JPanel implements ActionListener {
         init(); //init game
     }
 
-    
-
-  /*   private void playGame(Graphics2D g2d) {
-        moveplayer();
-    } */
-
-    /* private void moveplayer() {
-        // CHECK BOARD CONSTRAINTS HERE
-        // MOVE ENEMIES HERE OR CREATE NEW CLASS FOR MOVE ENEMIES IN playGame
-        cooldown--;
-        if(cooldown<=0){
-            cooldown=30;
-            //IF CONSTRAINT AT NEW LOCATION, CANCEL MOVE
-            playerX = playerX + MoveDistance * moveX;
-            playerY = playerY + MoveDistance * moveY;
-        }
-    } */
-
-    
-
-    /* private void initGame() {
-        //UI DISPLAY HERE
-        initLevel();
-    } */
-
-    /* private void initLevel() {
-
-        // BOARD AND OBJECTS HERE
-
-        continueLevel();
-    }
-
-    private void continueLevel() {
-
-        //PLAYER AND MOVEABLE START HERE
-
-        playerX = 7 * BLOCK_SIZE; //STARTING LOCATION
-        playerY = 7 * BLOCK_SIZE; //STARTING LOCATION
-        moveX = 0;
-        moveY = 0;
-    } */
-
     @Override
     public void paintComponent(Graphics g) {
         //DRAW LOOP
@@ -217,7 +171,6 @@ public class GameManager extends JPanel implements ActionListener {
             if(r.isVisible())
                 r.draw(g2d);
         }
-        //doAnim();
     }
 
     class TAdapter extends KeyAdapter {
@@ -263,15 +216,7 @@ public class GameManager extends JPanel implements ActionListener {
             isDirty = false;
         }
         
-        
         updateMovables();
-
-        if(isDirty)
-        {
-            updateGameLogic();
-            isDirty = false;
-        }
-        
         
         repaint();
     }
@@ -280,6 +225,13 @@ public class GameManager extends JPanel implements ActionListener {
     {
         updateEnemyPathing();
         updateMovables();
+        updateInteractions();
+
+        //check win/lose conditions
+        if(checkGameConditions())
+        {
+            //game is over, handle it
+        }
     }
 
     private void updateMovables()
@@ -308,6 +260,57 @@ public class GameManager extends JPanel implements ActionListener {
                 pathManager.setNextPosition(m);
             }
         }
+    }
+
+    private void updateInteractions()
+    {
+        for(var i : interactable)
+        {
+            if(!i.isActive())
+            {
+                continue;
+            }
+
+            if(player.getPosition() == i.getPosition())
+            {
+                if(i instanceof Rewards)
+                {
+                    scoreManager.addRequiredReward(i.getScore());
+                }
+
+                //TODO: implement penalty
+                /*if(i instanceof Penalty)
+                {
+                    scoreManager.addPenalty(i.getScore());
+                }*/
+
+                i.setActive(false);
+            }
+        }
+    }
+
+    //returns true if game should end
+    private boolean checkGameConditions()
+    {
+        if(scoreManager.hasReachedRewardsGoal())
+        {
+            //win!
+            return true;
+        }
+
+        for(var m : movables)
+        {
+            if(m instanceof Enemy)
+            {
+                if(m.getPosition() == player.getPosition())
+                {
+                    //lose!
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public Board getBoard()
