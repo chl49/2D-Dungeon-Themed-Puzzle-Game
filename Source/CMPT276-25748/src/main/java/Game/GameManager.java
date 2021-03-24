@@ -108,7 +108,7 @@ public class GameManager extends JPanel implements ActionListener {
         Enemy enemy = new Enemy();
         renderables.add(enemy);
         movables.add(enemy);
-        enemy.setPosition(25);
+        enemy.setPosition(10);
     }
 
     private void initControls() {
@@ -245,7 +245,6 @@ public class GameManager extends JPanel implements ActionListener {
                 }
             }
             player.setNextPosition(Helper.move(player.getPosition(), moveX, moveY));
-            //player.setNextPosition(Helper.move(player.getPosition(), moveX, moveY));
             isDirty = true;
         }
     }
@@ -262,6 +261,13 @@ public class GameManager extends JPanel implements ActionListener {
         
         updateMovables();
 
+        if(isDirty)
+        {
+            updateGameLogic();
+            isDirty = false;
+        }
+        
+        
         repaint();
     }
 
