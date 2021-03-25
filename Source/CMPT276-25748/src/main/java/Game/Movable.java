@@ -1,9 +1,13 @@
 package Game;
 
+/**
+* Movable class
+* Contains position information and desired position information.
+* GameManager will update the position in the game loop
+*/
 public class Movable {
     protected int pos;
     protected int nextPos;
-    protected boolean hasUpdated = false;
 
     public int getPosition()
     {
