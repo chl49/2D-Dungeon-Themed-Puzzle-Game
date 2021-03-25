@@ -56,7 +56,10 @@ public class GameManager extends JPanel implements ActionListener {
 
         return _instance;
     }
-
+    /**
+     * Initalize variables and class instances
+     * 
+     */
     private void init()
     {
         initTimer();
@@ -74,13 +77,15 @@ public class GameManager extends JPanel implements ActionListener {
         scoreManager = new ScoreManager(requiredRewardsCount);
     }
    
-
+    /**
+     * create timer instance to schedule threads
+     */
     private void initTimer() {
         timer = new Timer(30, this);
         timer.start();
         
     }
-
+    
     private void initBoard() {
         createBoard();
     }
@@ -138,7 +143,9 @@ public class GameManager extends JPanel implements ActionListener {
     private void initControls() {
         addKeyListener(new TAdapter());
     }
-
+    /**
+     * create Board class and insert objects into cells 
+     */
     private void createBoard() {
     
         try {
@@ -183,6 +190,10 @@ public class GameManager extends JPanel implements ActionListener {
 
         doDrawing(g);
     }
+    /**
+     * draw all objects cast into Graphics
+     * @param g Graphics object responsible for drawing
+     */
 
     private void doDrawing(Graphics g) {
 
@@ -218,6 +229,9 @@ public class GameManager extends JPanel implements ActionListener {
               }
         }
     }
+    /**
+     * directs specific actions for arrow key inputs
+     */
 
     class TAdapter extends KeyAdapter {
         //KEY INPUTS
@@ -270,6 +284,9 @@ public class GameManager extends JPanel implements ActionListener {
         
         repaint();
     }
+    /**
+     * update game's next action and check conditions 
+     */
 
     private void updateGameLogic()
     {
@@ -287,6 +304,9 @@ public class GameManager extends JPanel implements ActionListener {
         }
     }
 
+    /**
+     * update player and enemy's next position
+     */
     private void updateMovables()
     {
         for(var m : movables)
@@ -299,6 +319,9 @@ public class GameManager extends JPanel implements ActionListener {
             m.updatePosition();
         }
     }
+    /**
+     * pathManager determines the best move for the enemy
+     */
 
     private void updateEnemyPathing()
     {
@@ -310,6 +333,10 @@ public class GameManager extends JPanel implements ActionListener {
             }
         }
     }
+
+    /**
+     * check all object's interactable conditions
+     */
 
     private void updateInteractions()
     {
@@ -354,7 +381,11 @@ public class GameManager extends JPanel implements ActionListener {
         }
     }
 
-    //returns true if game should end
+    /**
+     * Checks whether player has met a winning or losing condition
+     * @return boolean for whether game should end
+     */
+
     private boolean checkGameConditions()
     {
         if(scoreManager.hasReachedRewardsGoal())
@@ -380,10 +411,21 @@ public class GameManager extends JPanel implements ActionListener {
         return false;
     }
 
+    /**
+     * returns the current board instance and it's map layout
+     * @return the Board class
+     */
+
     public Board getBoard()
     {
         return board;
     }
+
+    /**
+     * Initialize an object within a cell
+     * @param cell a node containing a char, which will represent an object type to be created
+     * @return cell object
+     */
 
     public Object initFromCell(Cell cell)
     {
@@ -441,6 +483,11 @@ public class GameManager extends JPanel implements ActionListener {
     {
         g2d.drawImage(image, xPos * BLOCK_SIZE, yPos * BLOCK_SIZE, this);
     }
+
+    /**
+     * function used for checking errors within the board class
+     * @param board the Board class instance being tested
+     */
 
     public void debugBoardOutput(Board board)
     {
