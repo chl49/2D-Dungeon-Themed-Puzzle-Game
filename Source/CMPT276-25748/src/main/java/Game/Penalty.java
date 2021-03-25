@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
  
 /**
  * Penalty class
- * This class will receive the position and score input and render the images.
+ * This class will receive the (position and score) input and render the images.
  */
 public class Penalty extends Interactable implements Renderable{
  
