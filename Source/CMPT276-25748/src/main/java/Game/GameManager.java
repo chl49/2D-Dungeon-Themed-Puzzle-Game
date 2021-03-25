@@ -325,7 +325,7 @@ public class GameManager extends JPanel implements ActionListener {
             
         if (i instanceof BonusReward)
         {
-            ((BonusReward)i).DecreaseLife();
+            ((BonusReward)i).decreaseLife();
             if (((BonusReward)i).isExpired()){
                 i.setActive(false);
             }

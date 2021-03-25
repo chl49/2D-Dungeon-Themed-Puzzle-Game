@@ -1,17 +1,12 @@
 package Game;
 import java.awt.Graphics2D;
-import java.awt.event.ActionListener;
-
-import javax.swing.Timer;
-import java.util.TimerTask;
-
 public class BonusReward extends Interactable implements Renderable{
 
     BonusRewardImage render;
-    protected int duration = 20;
-    boolean isExpired= false;
+    private int duration = 20;
+    private boolean isExpired= false;
     
-    public void DecreaseLife() {
+    public void decreaseLife() {
         duration--;
     }
 
@@ -19,7 +14,7 @@ public class BonusReward extends Interactable implements Renderable{
         if (duration<=0){
             return true;
         }
-        return isExpired;
+        return false;
     }
  
     public BonusReward(int inputPos, int inputScore)
