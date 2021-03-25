@@ -380,6 +380,16 @@ public class GameManager extends JPanel implements ActionListener {
             }
         }
     }
+    private boolean hitGoal(){
+        Cell[] newCellArray = board.getCellArray();
+            if(newCellArray[player.getPosition()].getCellChar()=='f')
+            {
+                return true;
+            }
+            else{
+                return false;
+            }
+    }
 
     /**
      * Checks whether player has met a winning or losing condition
@@ -391,8 +401,11 @@ public class GameManager extends JPanel implements ActionListener {
         if(scoreManager.hasReachedRewardsGoal())
         {
             //win!
-            screenSwitch=1;
-            return true;
+            board.updateMap();
+            if(hitGoal()){
+                screenSwitch=1;
+                return true;
+            }
         }
 
         for(var m : movables)
