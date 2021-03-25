@@ -8,8 +8,10 @@ public class Player extends Movable implements Renderable{
 
     private int lastPos = 0;
 
-    public Player()
+    public Player(int startingPos)
     {
+        pos = startingPos;
+
         render = new PlayerAnimation();
         render.loadImages();
     }

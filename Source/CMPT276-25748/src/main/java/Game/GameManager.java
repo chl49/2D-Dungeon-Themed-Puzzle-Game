@@ -40,8 +40,12 @@ public class GameManager extends JPanel implements ActionListener {
     private String score = "Score:";
     private String message = score+"0";
     private ArrayList<Interactable> interactable = new ArrayList<Interactable>();
-    
+    private ArrayList<Integer> goalPositions = new ArrayList<Integer>();
+    private int requiredRewardsCount = 0;
+
     private boolean isDebug = false;
+
+    
 
     public static GameManager instance()
     {
@@ -58,11 +62,16 @@ public class GameManager extends JPanel implements ActionListener {
         initTimer();
         initBoard();
         initRendering();
-        initEntities();
+
+        if(isDebug)
+        {
+            initDebugEntities();
+        }
+
         initControls();
         
         pathManager = new AIPathManager(player, board);
-        scoreManager = new ScoreManager(5); //TODO: make this 5 the number of required rewards from the board
+        scoreManager = new ScoreManager(requiredRewardsCount);
     }
    
 
@@ -86,17 +95,15 @@ public class GameManager extends JPanel implements ActionListener {
         setBackground(Color.black);
     }
 
-    private void initEntities()
+    private void initDebugEntities()
     {
-        player = new Player();
+        player = new Player(16);
         renderables.add(player);
         movables.add(player);
-        player.setPosition(16);
-
-        Enemy enemy = new Enemy();
+ 
+        Enemy enemy = new Enemy(22);
         renderables.add(enemy);
         movables.add(enemy);
-        enemy.setPosition(22);
 
         Rewards reward = new Rewards(18, 1);
         renderables.add(reward);
@@ -137,6 +144,15 @@ public class GameManager extends JPanel implements ActionListener {
         try {
             board = new Board("Source/CMPT276-25748/src/resources/input.txt");
             renderables.add(board);
+
+            var cells = board.getCellArray();
+
+            for(var c : cells)
+            {
+                //creates player, enemies, interactables
+                //also finds goal location(s)
+                initFromCell(c);
+            }
 
             //see board output
             if(isDebug)
@@ -232,8 +248,12 @@ public class GameManager extends JPanel implements ActionListener {
                     timer.start();
                 }
             }
-            player.setNextPosition(Helper.move(player.getPosition(), moveX, moveY));
-            isDirty = true;
+
+            if(player != null)
+            {
+                player.setNextPosition(Helper.move(player.getPosition(), moveX, moveY));
+                isDirty = true;
+            }
         }
     }
 
@@ -272,7 +292,8 @@ public class GameManager extends JPanel implements ActionListener {
         for(var m : movables)
         {
             Cell[] newCellArray = board.getCellArray();
-            if(newCellArray[m.getNextPosition()].getCellChar() != 'o') {
+            if(newCellArray[m.getNextPosition()].isBlocking())
+            {
                 m.setNextPosition(m.getPosition());
             }
             m.updatePosition();
@@ -364,6 +385,58 @@ public class GameManager extends JPanel implements ActionListener {
         return board;
     }
 
+    public Object initFromCell(Cell cell)
+    {
+        switch (cell.cellChar) {
+            
+            case 'e':
+            {
+                var enemy = new Enemy(cell.pos);
+                renderables.add(enemy);
+                movables.add(enemy);
+                return enemy;
+            }
+            case 'r':
+            {
+                var reward = new Rewards(cell.pos, 1);
+                renderables.add(reward);
+                interactable.add(reward);
+                requiredRewardsCount++;
+                return reward;
+            }
+            case 'b':
+            {
+                var reward = new BonusReward(cell.pos, 1);
+                renderables.add(reward);
+                interactable.add(reward);
+                return reward;
+            }
+            case 'p':
+            {
+                var penalty = new Penalty(cell.pos, 1);
+                renderables.add(penalty);
+                interactable.add(penalty);
+                return penalty;
+            }
+            case 'm':
+            {
+                //make sure this refernces GameManager.player, not a local variable
+                player = new Player(cell.pos);
+                renderables.add(player);
+                movables.add(player);
+                return player;
+            }
+            case 'f':
+            {
+                goalPositions.add(cell.pos);
+            }
+            default:
+            {
+                return null;
+            }
+        }
+    }
+
     public void drawImage(Image image, Graphics2D g2d, int xPos, int yPos)
     {
         g2d.drawImage(image, xPos * BLOCK_SIZE, yPos * BLOCK_SIZE, this);
@@ -378,7 +451,7 @@ public class GameManager extends JPanel implements ActionListener {
         for (int i = 0; i < (noOfRows*noOfColumns); i++) {
             gridString += newCellArray[i].getCellChar();
         }
-        System.out.println("Contents from the text file: " + board.getFileContent()
+        System.out.println("Contents from the text file: "
             + "\nNumber of Rows = " + Integer.toString(noOfRows)
             + "\nNumber of Columns = " + Integer.toString(noOfColumns)
             + "\nContents from the Cell Array: " + gridString

@@ -13,12 +13,7 @@ public class Board implements Renderable {
     int rowCount;
     int rowSize;
     Cell [] cellArray;
-    String fileContent;
-
-    // empty constructor
-    // public Board() {
-
-    // }
+    //private String fileContent;
 
     // constructor takes the name of an existing text file,
     // reads from the file,
@@ -26,10 +21,10 @@ public class Board implements Renderable {
     public Board(String fileName)  throws IOException {
 
         // reading from the text file and storing into a String variable
-        fileContent = readFile(fileName);
+        var fileContent = readFile(fileName);
 
         // pass fileContent to a function that will create a cell array
-        cellArray = createCellArray();
+        cellArray = createCellArray(fileContent);
     }
 
     // method to read from the text file
@@ -43,8 +38,14 @@ public class Board implements Renderable {
 
         while ((line = reader.readLine()) != null) {
             content.append(line);
-            rowSize = line.length();
             rowCount++;
+
+            var length = line.length();
+
+            if(rowSize < length)
+            {
+                rowSize = length;
+            }
         }
 
         result = content.toString();
@@ -53,7 +54,6 @@ public class Board implements Renderable {
         fr.close();
 
         return result;
-
     }
 
     // returns the number of columns of cells on the game board
@@ -67,20 +67,26 @@ public class Board implements Renderable {
     }
 
     // method creates an array of cells with different letters in them for now showing the content of the cell.
-    public Cell[] createCellArray() {
+    private Cell[] createCellArray(String fileContent) {
 
-        Cell[] newCellArray = new Cell[225];
+        var length = fileContent.length();
+
+        Cell[] newCellArray = new Cell[length];
         for (int i = 0; i < fileContent.length(); i++) {
-            newCellArray[i] = new Cell(fileContent.charAt(i));
+
+            var type = fileContent.charAt(i);
+
+            if(type == 'W')
+            {
+                newCellArray[i] = new Wall(i, type);
+            }
+            else
+            {
+                newCellArray[i] = new Cell(i, type);
+            }
+            
         }
         return newCellArray;
-    }
-
-    // returns the contents of the text file
-    public String getFileContent() {
-
-//        Cell[] oneCell = null;
-        return fileContent;
     }
 
     // returns the array of cells
@@ -107,7 +113,7 @@ public class Board implements Renderable {
     {
         if(position >= 0 && position < cellArray.length)
         {
-            if(cellArray[position].cellChar == 'o')
+            if(!cellArray[position].isBlocking)
             {
                 return true;
             }
@@ -116,21 +122,11 @@ public class Board implements Renderable {
         return false;
     }
 
-    // @Override
-    // public void draw(Graphics2D g2d) {
-    //     // TODO Auto-generated method stub
-        
-    // }
     @Override
     public void draw(Graphics2D g2d) {
         Helper.drawImage(image, g2d, 0, 0);
     }
 
-    // @Override
-    // public boolean isVisible() {
-    //     // TODO Auto-generated method stub
-    //     return false;
-    // }
     @Override
     public boolean isVisible() {
         return true;
