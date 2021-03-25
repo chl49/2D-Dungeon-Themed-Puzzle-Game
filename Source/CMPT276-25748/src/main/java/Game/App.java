@@ -1,3 +1,7 @@
+/**
+* App.java has the main method. We run the game through this file.
+* Initializes the User Interface, and brings up the instance of the board setting its size. Controls the game screen basically.
+*/
 
 package Game;
 
