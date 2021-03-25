@@ -2,6 +2,10 @@ package Game;
 
 import java.awt.Graphics2D;
 
+/**
+* Enemy class
+* Enemy that moves towards the player.
+*/
 public class Enemy extends Movable implements Renderable {
 
     EnemyAnimation render;
@@ -16,6 +20,11 @@ public class Enemy extends Movable implements Renderable {
         render.loadImages();
     }
 
+    /**
+    * Uses look direction to select appropriate sprite/animation
+    *
+    * @param    g2d reference to graphics
+    */
     @Override
     public void draw(Graphics2D g2d) {
 
@@ -29,6 +38,10 @@ public class Enemy extends Movable implements Renderable {
     public boolean isVisible() {
         return true;
     }
+
+    /**
+    * Stores last position to determine look direction for the sprite/animation
+    */
     @Override
     public void updatePosition() {
 
