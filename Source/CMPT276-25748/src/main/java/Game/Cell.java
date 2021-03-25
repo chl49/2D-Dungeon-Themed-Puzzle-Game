@@ -2,9 +2,11 @@ package Game;
 
 public class Cell {
 
-    protected int pos; // position
-    protected char cellChar;
-    protected boolean isBlocking = false;
+    int cellPos; // position
+    char cellChar;
+
+    // default constructor
+    public Cell() {}
 
     // constructor which store the character letter
     public Cell(int pos, char cellContent) {
