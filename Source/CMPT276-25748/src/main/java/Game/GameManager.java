@@ -11,42 +11,23 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.awt.Font;
-import java.awt.Toolkit;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Scanner;
+
 
 public class GameManager extends JPanel implements ActionListener {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
     private Dimension d;
     private final int BLOCK_SIZE = 30;  //sprite size is 30x30 pixels
-    // private final int N_BLOCKS = 20; //20x20 grid perhaps
-    // private final int SCREEN_SIZE = N_BLOCKS * BLOCK_SIZE; //20*30 = 600 for Length
-    
-    //private final int MoveDistance = BLOCK_SIZE;
-
-    // private int playerX, playerY;
-    // private int moveX, moveY;
-    // private int cooldown=30;  //TICK TIME
     private Timer timer;
 
     private static GameManager _instance = null;
 
     private Board board;
     private Player player;
-    private Rewards rewards;
     private ArrayList<Renderable> renderables = new ArrayList<Renderable>();
     private ArrayList<Movable> movables = new ArrayList<Movable>();
     private Image winScreen = new ImageIcon("Source/CMPT276-25748/src/sprite/win.png").getImage();
@@ -59,6 +40,8 @@ public class GameManager extends JPanel implements ActionListener {
     private String score = "Score:";
     private String message = score+"0";
     private ArrayList<Interactable> interactable = new ArrayList<Interactable>();
+    
+    private boolean isDebug = false;
 
     public static GameManager instance()
     {
@@ -110,7 +93,6 @@ public class GameManager extends JPanel implements ActionListener {
         movables.add(player);
         player.setPosition(16);
 
-        //TODO: enemies and stuff
         Enemy enemy = new Enemy();
         renderables.add(enemy);
         movables.add(enemy);
@@ -135,6 +117,7 @@ public class GameManager extends JPanel implements ActionListener {
         Rewards reward5 = new Rewards(65, 1);
         renderables.add(reward5);
         interactable.add(reward5);
+
         Penalty penalty = new Penalty(50, 1);
         renderables.add(penalty);
         interactable.add(penalty);
@@ -150,24 +133,17 @@ public class GameManager extends JPanel implements ActionListener {
     }
 
     private void createBoard() {
-        String gridString = "";
-        int noOfRows = 0;
-        int noOfColumns = 0;
-        String contentsOfArray = "";
+    
         try {
             board = new Board("Source/CMPT276-25748/src/resources/input.txt");
             renderables.add(board);
-            Cell[] newCellArray = board.getCellArray();
-            noOfRows = board.getNoOfRows();
-            noOfColumns = board.getNoOfColumns();
-            for (int i = 0; i < (noOfRows*noOfColumns); i++) {
-                contentsOfArray += newCellArray[i].getCellChar();
+
+            //see board output
+            if(isDebug)
+            {
+                debugBoardOutput(board);
             }
-            System.out.println("Contents from the text file: " + board.getFileContent()
-                + "\nNumber of Rows = " + Integer.toString(noOfRows)
-                + "\nNumber of Columns = " + Integer.toString(noOfColumns)
-                + "\nContents from the Cell Array: " + contentsOfArray
-                + "\nTotal number of cells: " + (noOfRows*noOfColumns));
+            
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -339,10 +315,9 @@ public class GameManager extends JPanel implements ActionListener {
                     System.out.println(scoreManager.getRequiredRewardsCollected());
                     System.out.println(scoreManager.hasReachedRewardsGoal());
                     System.out.println(scoreManager.hasReachedRewardsGoal());
-                    message=score+String.valueOf(scoreManager.getTotalScore());
+                    message = score + String.valueOf(scoreManager.getTotalScore());
                 }
 
-                //TODO: implement penalty
                 if(i instanceof Penalty)
                 {
                     scoreManager.addPenalty(i.getScore());
@@ -392,5 +367,21 @@ public class GameManager extends JPanel implements ActionListener {
     public void drawImage(Image image, Graphics2D g2d, int xPos, int yPos)
     {
         g2d.drawImage(image, xPos * BLOCK_SIZE, yPos * BLOCK_SIZE, this);
+    }
+
+    public void debugBoardOutput(Board board)
+    {
+        String gridString = "";
+        Cell[] newCellArray = board.getCellArray();
+        int noOfRows = board.getNoOfRows();
+        int noOfColumns = board.getNoOfColumns();
+        for (int i = 0; i < (noOfRows*noOfColumns); i++) {
+            gridString += newCellArray[i].getCellChar();
+        }
+        System.out.println("Contents from the text file: " + board.getFileContent()
+            + "\nNumber of Rows = " + Integer.toString(noOfRows)
+            + "\nNumber of Columns = " + Integer.toString(noOfColumns)
+            + "\nContents from the Cell Array: " + gridString
+            + "\nTotal number of cells: " + (noOfRows*noOfColumns));
     }
 }
