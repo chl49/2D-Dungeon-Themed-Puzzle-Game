@@ -194,13 +194,13 @@ public class GameManager extends JPanel implements ActionListener {
             if(r.isVisible())
                 r.draw(g2d);
           }
-          var small = new Font("Helvetica", Font.BOLD, 14);
+          var small = new Font("Helvetica", Font.BOLD, 20);
           var fontMetrics = this.getFontMetrics(small);
 
-          g.setColor(Color.black);
+          g.setColor(Color.white);
           g.setFont(small);
           //fontMetrics.stringWidth(message)
-          g.drawString(message, 0, 10);
+          g.drawString(message, 10, 15);
         }
         else{
             switch(screenSwitch){
