@@ -2,6 +2,10 @@ package Game;
 import java.awt.Graphics2D;
  
  
+/**
+ * Penalty class
+ * This class will receive the position and score input and render the images.
+ */
 public class Penalty extends Interactable implements Renderable{
  
     PenaltyImage render;
@@ -16,6 +20,10 @@ public class Penalty extends Interactable implements Renderable{
         render.loadImages();
     }
  
+    
+    /** 
+     * @param g2d
+     */
     @Override
     public void draw(Graphics2D g2d) {
 
@@ -23,6 +31,10 @@ public class Penalty extends Interactable implements Renderable{
         render.draw(g2d, pos2D[0],pos2D[1]);
     }
  
+    
+    /** 
+     * @return boolean
+     */
     @Override
     public boolean isVisible() {
         return isActive;
