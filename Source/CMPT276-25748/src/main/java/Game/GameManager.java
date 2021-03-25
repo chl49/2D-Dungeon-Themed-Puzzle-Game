@@ -81,10 +81,12 @@ public class GameManager extends JPanel implements ActionListener {
         pathManager = new AIPathManager(player, board);
         scoreManager = new ScoreManager(5); //TODO: make this 5 the number of required rewards from the board
     }
+   
 
     private void initTimer() {
         timer = new Timer(30, this);
         timer.start();
+        
     }
 
     private void initBoard() {
@@ -133,6 +135,14 @@ public class GameManager extends JPanel implements ActionListener {
         Rewards reward5 = new Rewards(65, 1);
         renderables.add(reward5);
         interactable.add(reward5);
+        Penalty penalty = new Penalty(50, 1);
+        renderables.add(penalty);
+        interactable.add(penalty);
+
+        BonusReward bonusreward = new BonusReward(40, 1);
+        renderables.add(bonusreward);
+        interactable.add(bonusreward);
+
     }
 
     private void initControls() {
@@ -312,6 +322,14 @@ public class GameManager extends JPanel implements ActionListener {
             {
                 continue;
             }
+            
+        if (i instanceof BonusReward)
+        {
+            ((BonusReward)i).DecreaseLife();
+            if (((BonusReward)i).isExpired()){
+                i.setActive(false);
+            }
+        }
 
             if(player.getPosition() == i.getPosition())
             {
@@ -325,10 +343,15 @@ public class GameManager extends JPanel implements ActionListener {
                 }
 
                 //TODO: implement penalty
-                /*if(i instanceof Penalty)
+                if(i instanceof Penalty)
                 {
                     scoreManager.addPenalty(i.getScore());
-                }*/
+                }
+
+                if(i instanceof BonusReward)
+                {
+                    scoreManager.addBonusReward(i.getScore());
+                }
 
                 i.setActive(false);
             }
