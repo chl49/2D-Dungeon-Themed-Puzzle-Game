@@ -12,10 +12,6 @@ public class Board implements Renderable {
     private Image image = new ImageIcon("Source/CMPT276-25748/src/sprite/map.png").getImage();
     int rowCount;
     int rowSize;
-<<<<<<< HEAD
-    Cell [] cellArray;
-    //private String fileContent;
-=======
     Cell[] cellArray;
     String fileContent;
 
@@ -23,7 +19,6 @@ public class Board implements Renderable {
     // public Board() {
 
     // }
->>>>>>> f371a99 (got the updated master branch into my board2 branch)
 
     // constructor takes the name of an existing text file,
     // reads from the file,
@@ -80,9 +75,7 @@ public class Board implements Renderable {
     // showing the content of the cell.
     public Cell[] createCellArray() {
 
-        var length = fileContent.length();
-
-        Cell[] newCellArray = new Cell[length];
+        Cell[] newCellArray = new Cell[fileContent.length()];
         for (int i = 0; i < fileContent.length(); i++) {
 
             var type = fileContent.charAt(i);
