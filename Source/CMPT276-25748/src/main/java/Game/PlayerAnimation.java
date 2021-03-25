@@ -3,24 +3,24 @@ package Game;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import java.awt.Graphics2D;
-import java.awt.image.*;
 import java.util.ArrayList;
 
 public class PlayerAnimation {
     
     private final int AnimationDelay = 5;
-    private final int AnimationFrames = 4;
-    private int AnimCooldown = AnimationDelay;
-    private int AnimPos = 0; //Animation Looper
+    private int animPos = 0; //Animation Looper
 
     ArrayList<Image> upImages;
     ArrayList<Image> downImages;
     ArrayList<Image> leftImages;
     ArrayList<Image> rightImages;
 
+    ArrayList<Image> currentAnim = null;
+    ArrayList<Image> lastAnim = null;
+
+    private int currentAnimTimer = 0;
+
     public void loadImages() {
-        //SPRITES 
-        //ADD OTHER CHARACTER SPRITES HERE
         upImages = new ArrayList<Image>();
         upImages.add(new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyup1.png").getImage());
         upImages.add(new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyup2.png").getImage());
@@ -46,30 +46,46 @@ public class PlayerAnimation {
         rightImages.add(new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyright4.png").getImage());
     }
 
-    public void doAnim() {
+    public void draw(Graphics2D g2d, int dirX, int dirY, int xPos, int yPos) {
 
-        AnimCooldown--;
+        lastAnim = currentAnim;
 
-        if (AnimCooldown <= 0) {
-            AnimCooldown = AnimationDelay;
-            AnimPos++;
+        if (dirX == -1) {
+            currentAnim = leftImages;
+        } else if (dirX == 1) {
+            currentAnim = rightImages;
+        } else if (dirY == -1) {
+            currentAnim = upImages;
+        } else {
+            currentAnim = downImages;
+        }
 
-            if (AnimPos == AnimationFrames) {
-                AnimPos = 0;
-            }
+        //update animation if the same direction, else, reset
+        if(lastAnim != null && currentAnim == lastAnim)
+        {
+            updateAnimCounter();
+        }
+        else
+        {
+            resetAnimCounter();
+        }
+
+        Helper.drawImage(currentAnim.get(animPos), g2d, xPos, yPos);
+    }
+
+    private void updateAnimCounter()
+    {
+        currentAnimTimer--;
+
+        if(currentAnimTimer <= 0)
+        {
+            animPos = (animPos + 1 ) % currentAnim.size();
+            currentAnimTimer = AnimationDelay;
         }
     }
 
-    public void draw(Graphics2D g2d, int dirX, int dirY, int xPos, int yPos) {
-
-        if (dirX == -1) {
-            Helper.drawImage(leftImages.get(AnimPos), g2d, xPos, yPos);
-        } else if (dirX == 1) {
-            Helper.drawImage(rightImages.get(AnimPos), g2d, xPos, yPos);
-        } else if (dirY == -1) {
-            Helper.drawImage(upImages.get(AnimPos), g2d, xPos, yPos);
-        } else {
-            Helper.drawImage(downImages.get(AnimPos), g2d, xPos, yPos);
-        }
+    private void resetAnimCounter()
+    {
+        animPos = 0;
     }
 }
