@@ -8,8 +8,10 @@ public class Enemy extends Movable implements Renderable {
 
     private int lastPos = 0;
 
-    public Enemy()
+    public Enemy(int startingPos)
     {
+        pos = startingPos;
+
         render = new EnemyAnimation();
         render.loadImages();
     }
