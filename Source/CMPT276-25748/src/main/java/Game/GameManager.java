@@ -16,7 +16,11 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.util.ArrayList;
 
-
+/**
+* GameManager class
+* Loads and supervises all activities needed for the game to function. 
+* Handles draws and key inputs
+*/
 public class GameManager extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
