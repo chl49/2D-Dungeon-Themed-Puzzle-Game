@@ -1,5 +1,9 @@
 package Game;
 
+/**
+* ScoreManager class
+* Tracks the total score and progress towards the require reward count
+*/
 public class ScoreManager {
     
     private int requiredRewards = 0;
