@@ -2,6 +2,10 @@ package Game;
 
 import java.awt.Graphics2D;
 
+/**
+* Player class
+* Player controlled object
+*/
 public class Player extends Movable implements Renderable{
 
     private PlayerAnimation render;
@@ -16,6 +20,9 @@ public class Player extends Movable implements Renderable{
         render.loadImages();
     }
 
+    /**
+    * Stores last position to determine look direction for the sprite/animation
+    */
     @Override
     public void updatePosition() {
 
@@ -27,6 +34,11 @@ public class Player extends Movable implements Renderable{
         super.updatePosition();
     }
 
+    /**
+    * Uses look direction to select appropriate sprite/animation
+    *
+    * @param    g2d reference to graphics
+    */
     @Override
     public void draw(Graphics2D g2d) {
         

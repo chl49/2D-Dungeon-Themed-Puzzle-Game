@@ -5,6 +5,10 @@ import javax.swing.ImageIcon;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/**
+* PlayerAnimation class
+* Rendering component of the Player class
+*/
 public class PlayerAnimation {
     
     private final int AnimationDelay = 10;
@@ -46,6 +50,9 @@ public class PlayerAnimation {
         rightImages.add(new ImageIcon("Source/CMPT276-25748/src/sprite/sunnyright4.png").getImage());
     }
 
+    /**
+    * Draws sprite/animation based on direction given
+    */
     public void draw(Graphics2D g2d, int dirX, int dirY, int xPos, int yPos) {
 
         lastAnim = currentAnim;
@@ -73,6 +80,9 @@ public class PlayerAnimation {
         Helper.drawImage(currentAnim.get(animPos), g2d, xPos, yPos);
     }
 
+    /**
+    * Applies frame delay so sprites cycle more visibly
+    */
     private void updateAnimCounter()
     {
         currentAnimTimer--;

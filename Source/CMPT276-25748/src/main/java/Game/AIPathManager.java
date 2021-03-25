@@ -1,17 +1,15 @@
 package Game;
-/*
-Tony Ho
-AIPathManager class
-Calculates the next position an enemy should move to.
-Requires: Row size, the board, current player position
-Pass current enemy position to GetNextPos, returns next position to move to
-Assumes can move in any direction
-*/
 
 import java.util.List;
 import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.ArrayList;
+
+/**
+* AIPathManager class
+* Calculates paths for enemies to move towards the player.
+* Holds references to the Player and Board.
+*/
 
 public class AIPathManager 
 {
@@ -20,6 +18,15 @@ public class AIPathManager
     public Player playerRef;
     public Board boardRef;
 
+    /**
+    * Calculates paths for enemies to move towards the player.
+    * Holds references to the Player and Board.
+    * Creates and directional array in the constructor,
+    * diagonal movement is commented out
+    *
+    * @param    player reference to the Player object
+    * @param    board reference to the Board object
+    */
     public AIPathManager(Player player, Board board)
     {
         directions = Arrays.asList(
@@ -37,8 +44,15 @@ public class AIPathManager
         boardRef = board;
     }
 
-    //Uses A* search algorithm
-    //https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
+    /**
+    * Takes a position for the enemy, does path finding with A*, and returns the next position.
+    * This enemy should move one step towards the player.
+    * Uses A* search algorithm: 
+    * https://medium.com/@nicholas.w.swift/easy-a-star-pathfinding-7e6689c7f7b2
+    *
+    * @param    currentPos Current enemy position
+    * @return   Next position for the enemy to move to
+    */
 
     public int getNextPos(int currentPos)
     {
@@ -116,8 +130,6 @@ public class AIPathManager
                     continue;
                 }
 
-                //TODO: adapt this to movable/nonmovable
-                //O means open/moveable
                 var newPos = Helper.getPosFrom2D(xPos, yPos);
 
                 if(!boardRef.isEmpty(newPos))
@@ -167,6 +179,12 @@ public class AIPathManager
         return -1;
     }
 
+    /**
+    * Takes a position for the enemy, does path finding with A*, and sets the next position
+    * in the nextPos variable. The updateMovables function will handling updating the position.
+    *
+    * @param    enemy enemy whose position is to be updated
+    */
     public void setNextPosition(Movable enemy)
     {
         int nextPos = getNextPos(enemy.getPosition());
@@ -181,6 +199,11 @@ public class AIPathManager
         }
     }
 
+    /**
+    * GridCell class
+    * Nested class inside AIPathManager.
+    * Used for A* algorithm only.
+    */
     private class GridCell
     {
         public float f = 0.0f;
