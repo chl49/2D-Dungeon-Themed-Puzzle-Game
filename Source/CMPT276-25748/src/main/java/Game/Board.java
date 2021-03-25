@@ -9,7 +9,9 @@ import javax.swing.ImageIcon;
 
 public class Board implements Renderable {
 
-    private Image image = new ImageIcon("Source/CMPT276-25748/src/sprite/map.png").getImage();
+    private Image map = new ImageIcon("Source/CMPT276-25748/src/sprite/map.png").getImage();
+    private Image newmap = new ImageIcon("Source/CMPT276-25748/src/sprite/newmap.png").getImage();
+    private Image image = map;
     int rowCount;
     int rowSize;
     Cell [] cellArray;
@@ -120,6 +122,10 @@ public class Board implements Renderable {
         }
 
         return false;
+    }
+
+    public void updateMap(){
+        image=newmap;
     }
 
     @Override
