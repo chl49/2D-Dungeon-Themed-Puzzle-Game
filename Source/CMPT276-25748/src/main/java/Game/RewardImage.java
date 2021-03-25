@@ -9,7 +9,7 @@ public class RewardImage {
    private Image image;
  
    public void loadImages() {
-       image = new ImageIcon("Source/CMPT276-25748/src/sprite/sunnydown1.png").getImage();
+       image = new ImageIcon("Source/CMPT276-25748/src/sprite/reward.png").getImage();
    }
  
    public void draw(Graphics2D g2d, int xPos, int yPos)

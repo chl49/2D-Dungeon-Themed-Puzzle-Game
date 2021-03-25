@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class PlayerAnimation {
     
-    private final int AnimationDelay = 5;
+    private final int AnimationDelay = 10;
     private int animPos = 0; //Animation Looper
 
     ArrayList<Image> upImages;
