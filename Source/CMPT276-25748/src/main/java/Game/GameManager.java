@@ -21,7 +21,16 @@ public class GameManager extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private Dimension d;
-    private final int BLOCK_SIZE = 30;  //sprite size is 30x30 pixels
+    private final int BLOCK_SIZE = 30; // sprite size is 30x30 pixels
+    // private final int N_BLOCKS = 20; //20x20 grid perhaps
+    // private final int SCREEN_SIZE = N_BLOCKS * BLOCK_SIZE; //20*30 = 600 for
+    // Length
+
+    // private final int MoveDistance = BLOCK_SIZE;
+
+    // private int playerX, playerY;
+    // private int moveX, moveY;
+    // private int cooldown=30; //TICK TIME
     private Timer timer;
 
     private static GameManager _instance = null;
@@ -47,18 +56,15 @@ public class GameManager extends JPanel implements ActionListener {
 
     
 
-    public static GameManager instance()
-    {
-        if(_instance == null)
-        {
+    public static GameManager instance() {
+        if (_instance == null) {
             _instance = new GameManager();
         }
 
         return _instance;
     }
 
-    private void init()
-    {
+    private void init() {
         initTimer();
         initBoard();
         initRendering();
@@ -95,9 +101,8 @@ public class GameManager extends JPanel implements ActionListener {
         setBackground(Color.black);
     }
 
-    private void initDebugEntities()
-    {
-        player = new Player(16);
+    private void initEntities() {
+        player = new Player();
         renderables.add(player);
         movables.add(player);
  
@@ -140,45 +145,42 @@ public class GameManager extends JPanel implements ActionListener {
     }
 
     private void createBoard() {
-    
+        int noOfRows = 0;
+        int noOfColumns = 0;
+        String contentsOfArray = "";
         try {
             board = new Board("Source/CMPT276-25748/src/resources/input.txt");
             renderables.add(board);
-
-            var cells = board.getCellArray();
-
-            for(var c : cells)
-            {
-                //creates player, enemies, interactables
-                //also finds goal location(s)
-                initFromCell(c);
+            Cell[] newCellArray = board.getCellArray();
+            noOfRows = board.getNoOfRows();
+            noOfColumns = board.getNoOfColumns();
+            for (int i = 0; i < (noOfRows * noOfColumns); i++) {
+                contentsOfArray += newCellArray[i].getCellChar();
             }
+            System.out.println("Contents from the text file: " + board.getFileContent() + "\nNumber of Rows = "
+                    + Integer.toString(noOfRows) + "\nNumber of Columns = " + Integer.toString(noOfColumns)
+                    + "\nContents from the Cell Array: " + contentsOfArray + "\nTotal number of cells: "
+                    + (noOfRows * noOfColumns));
 
-            //see board output
-            if(isDebug)
-            {
-                debugBoardOutput(board);
-            }
-            
+            board.identifyCells();
+
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
 
-    
-
     @Override
     public void addNotify() {
-        //START UP HERE
+        // START UP HERE
         super.addNotify();
 
-        init(); //init game
+        init(); // init game
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        //DRAW LOOP
+        // DRAW LOOP
         super.paintComponent(g);
 
         doDrawing(g);
@@ -220,7 +222,7 @@ public class GameManager extends JPanel implements ActionListener {
     }
 
     class TAdapter extends KeyAdapter {
-        //KEY INPUTS
+        // KEY INPUTS
 
         @Override
         public void keyPressed(KeyEvent e) {
@@ -385,60 +387,7 @@ public class GameManager extends JPanel implements ActionListener {
         return board;
     }
 
-    public Object initFromCell(Cell cell)
-    {
-        switch (cell.cellChar) {
-            
-            case 'e':
-            {
-                var enemy = new Enemy(cell.pos);
-                renderables.add(enemy);
-                movables.add(enemy);
-                return enemy;
-            }
-            case 'r':
-            {
-                var reward = new Rewards(cell.pos, 1);
-                renderables.add(reward);
-                interactable.add(reward);
-                requiredRewardsCount++;
-                return reward;
-            }
-            case 'b':
-            {
-                var reward = new BonusReward(cell.pos, 1);
-                renderables.add(reward);
-                interactable.add(reward);
-                return reward;
-            }
-            case 'p':
-            {
-                var penalty = new Penalty(cell.pos, 1);
-                renderables.add(penalty);
-                interactable.add(penalty);
-                return penalty;
-            }
-            case 'm':
-            {
-                //make sure this refernces GameManager.player, not a local variable
-                player = new Player(cell.pos);
-                renderables.add(player);
-                movables.add(player);
-                return player;
-            }
-            case 'f':
-            {
-                goalPositions.add(cell.pos);
-            }
-            default:
-            {
-                return null;
-            }
-        }
-    }
-
-    public void drawImage(Image image, Graphics2D g2d, int xPos, int yPos)
-    {
+    public void drawImage(Image image, Graphics2D g2d, int xPos, int yPos) {
         g2d.drawImage(image, xPos * BLOCK_SIZE, yPos * BLOCK_SIZE, this);
     }
 

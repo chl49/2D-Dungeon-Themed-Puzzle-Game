@@ -12,13 +12,23 @@ public class Board implements Renderable {
     private Image image = new ImageIcon("Source/CMPT276-25748/src/sprite/map.png").getImage();
     int rowCount;
     int rowSize;
+<<<<<<< HEAD
     Cell [] cellArray;
     //private String fileContent;
+=======
+    Cell[] cellArray;
+    String fileContent;
+
+    // empty constructor
+    // public Board() {
+
+    // }
+>>>>>>> f371a99 (got the updated master branch into my board2 branch)
 
     // constructor takes the name of an existing text file,
     // reads from the file,
     // and creates an array of Cells
-    public Board(String fileName)  throws IOException {
+    public Board(String fileName) throws IOException {
 
         // reading from the text file and storing into a String variable
         var fileContent = readFile(fileName);
@@ -57,17 +67,18 @@ public class Board implements Renderable {
     }
 
     // returns the number of columns of cells on the game board
-    public int getNoOfColumns () {
+    public int getNoOfColumns() {
         return rowSize;
     }
 
     // returns the number of rows of cells on the game board
-    public int getNoOfRows () {
+    public int getNoOfRows() {
         return rowCount;
     }
 
-    // method creates an array of cells with different letters in them for now showing the content of the cell.
-    private Cell[] createCellArray(String fileContent) {
+    // method creates an array of cells with different letters in them for now
+    // showing the content of the cell.
+    public Cell[] createCellArray() {
 
         var length = fileContent.length();
 
@@ -76,17 +87,7 @@ public class Board implements Renderable {
 
             var type = fileContent.charAt(i);
 
-            if(type == 'W')
-            {
-                newCellArray[i] = new Wall(i, type);
-            }
-            else
-            {
-                newCellArray[i] = new Cell(i, type);
-            }
-            
-        }
-        return newCellArray;
+        return fileContent;
     }
 
     // returns the array of cells
@@ -94,18 +95,15 @@ public class Board implements Renderable {
         return cellArray;
     }
 
-    public int calcXPos(int position)
-    {
+    public int calcXPos(int position) {
         return position % rowSize;
     }
 
-    public int calcYPos(int position)
-    {
+    public int calcYPos(int position) {
         return position / rowSize;
     }
 
-    public int calcPosFrom2D(int x, int y)
-    {
+    public int calcPosFrom2D(int x, int y) {
         return y * rowSize + x;
     }
 
@@ -122,14 +120,58 @@ public class Board implements Renderable {
         return false;
     }
 
+    // @Override
+    // public void draw(Graphics2D g2d) {
+    // // TODO Auto-generated method stub
+
+    // }
     @Override
     public void draw(Graphics2D g2d) {
         Helper.drawImage(image, g2d, 0, 0);
     }
 
+    // @Override
+    // public boolean isVisible() {
+    // // TODO Auto-generated method stub
+    // return false;
+    // }
     @Override
     public boolean isVisible() {
         return true;
+    }
+
+    public void identifyCells() {
+        for (int i = 0; i < cellArray.length; i++) {
+            switch (cellArray[i].getCellChar()) {
+            case 'w':
+                System.out.println("wall-");
+                break;
+            case ' ':
+                System.out.println("empty cell-");
+                break;
+            case 'e':
+                System.out.println("enemy-");
+                break;
+            case 'r':
+                System.out.println("reward-");
+                break;
+            case 'b':
+                System.out.println("bonus reward-");
+                break;
+            case 'p':
+                System.out.println("penalty-");
+                break;
+            case 'm':
+                System.out.println("main character-");
+                break;
+            case 's':
+                System.out.println("start-");
+                break;
+            case 'f':
+                System.out.println("finish");
+                break;
+            }
+        }
     }
 
 }

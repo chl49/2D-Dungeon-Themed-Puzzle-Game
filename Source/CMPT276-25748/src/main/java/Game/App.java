@@ -18,7 +18,7 @@ public class App extends JFrame {
 
         setTitle("App");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(450, 450);
+        setSize(475, 500);
         setLocationRelativeTo(null);
     }
 
@@ -31,4 +31,3 @@ public class App extends JFrame {
         });
     }
 }
-
