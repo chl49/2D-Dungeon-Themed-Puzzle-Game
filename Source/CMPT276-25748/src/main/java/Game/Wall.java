@@ -22,5 +22,12 @@ public class Wall extends Cell{
         isBlocking = true;
     }
 
+    /*
+    * returns the position of the cell
+    */
+    public int getPosition()
+    {
+        return pos;
+    }
 
 }
