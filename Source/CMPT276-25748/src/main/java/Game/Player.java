@@ -15,6 +15,7 @@ public class Player extends Movable implements Renderable{
     public Player(int startingPos)
     {
         pos = startingPos;
+        nextPos = startingPos;
 
         render = new PlayerAnimation();
         render.loadImages();

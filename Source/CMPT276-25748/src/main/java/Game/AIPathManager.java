@@ -13,8 +13,6 @@ import java.util.ArrayList;
 
 public class AIPathManager 
 {
-    public List<AbstractMap.SimpleEntry<Integer, Integer>> directions;
-
     public Player playerRef;
     public Board boardRef;
 
@@ -29,17 +27,6 @@ public class AIPathManager
     */
     public AIPathManager(Player player, Board board)
     {
-        directions = Arrays.asList(
-        new AbstractMap.SimpleEntry<Integer, Integer>(1, 0),
-        //new AbstractMap.SimpleEntry<Integer, Integer>(1, -1), 
-        new AbstractMap.SimpleEntry<Integer, Integer>(0, -1), 
-        //new AbstractMap.SimpleEntry<Integer, Integer>(-1, -1), 
-        new AbstractMap.SimpleEntry<Integer, Integer>(-1, 0), 
-        //new AbstractMap.SimpleEntry<Integer, Integer>(-1, 1), 
-        new AbstractMap.SimpleEntry<Integer, Integer>(0, 1)
-        //new AbstractMap.SimpleEntry<Integer, Integer>(1, 1)
-        );
-
         playerRef = player;
         boardRef = board;
     }
@@ -116,10 +103,10 @@ public class AIPathManager
 
             var children = new ArrayList<GridCell>();
 
-            for(var dir : directions)
+            for(var dir : Helper.getDirections())
             {
-                int xPos = Helper.xPos(currentNode.pos);
-                int yPos = Helper.yPos(currentNode.pos);
+                int xPos = boardRef.calcXPos(currentNode.pos);
+                int yPos = boardRef.calcYPos(currentNode.pos);
                 
                 xPos += dir.getKey();
                 yPos += dir.getValue();
@@ -130,9 +117,40 @@ public class AIPathManager
                     continue;
                 }
 
-                var newPos = Helper.getPosFrom2D(xPos, yPos);
+                var newPos = boardRef.calcPosFrom2D(xPos, yPos);
 
                 if(!boardRef.isEmpty(newPos))
+                {
+                    continue;
+                }
+
+                //check if this position already considered
+                boolean explored = false;
+
+                for(var closedNode : closedList)
+                {
+                    if(closedNode.pos == newPos)
+                    {
+                        explored = true;
+                        break;
+                    }
+                }
+
+                if(explored)
+                {
+                    continue;
+                }
+
+                for(var openNode : openList)
+                {
+                    if(openNode.pos == newPos)
+                    {
+                        explored = true;
+                        break;
+                    }
+                }
+
+                if(explored)
                 {
                     continue;
                 }
@@ -151,14 +169,14 @@ public class AIPathManager
                     }
                 }
 
-                int childXPos = Helper.xPos(child.pos);
-                int childYPos = Helper.yPos(child.pos);
-                int endXPos = Helper.xPos(endNode.pos);
-                int endYPos = Helper.yPos(endNode.pos);
+                int childXPos = boardRef.calcXPos(child.pos);
+                int childYPos = boardRef.calcYPos(child.pos);
+                int endXPos = boardRef.calcXPos(endNode.pos);
+                int endYPos = boardRef.calcYPos(endNode.pos);
 
                 //distance formula between two 2D points before the root
                 child.h = (float)(Math.pow((float)(childXPos - endXPos), 2) + Math.pow((float)(childYPos - endYPos), 2));
-                //child.h = (float)Math.pow(child.h, 0.5f) * 0.5f;  //square root to get magnitude
+                child.h = (float)Math.pow(child.h, 0.5f);  //square root to get magnitude
 
                 child.g = currentNode.g + 1;
                 child.f = child.g + child.h;

@@ -2,6 +2,9 @@ package Game;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.util.AbstractMap;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Helper class
@@ -59,6 +62,22 @@ public class Helper {
     public static int getPosFrom2D(int x, int y)
     {
         return GameManager.instance().getBoard().calcPosFrom2D(x, y);
+    }
+
+    private static List<AbstractMap.SimpleEntry<Integer, Integer>> directions = Arrays.asList(
+        new AbstractMap.SimpleEntry<Integer, Integer>(1, 0),        //right
+        //new AbstractMap.SimpleEntry<Integer, Integer>(1, -1), 
+        new AbstractMap.SimpleEntry<Integer, Integer>(0, -1),       //up
+        //new AbstractMap.SimpleEntry<Integer, Integer>(-1, -1), 
+        new AbstractMap.SimpleEntry<Integer, Integer>(-1, 0),       //left
+        //new AbstractMap.SimpleEntry<Integer, Integer>(-1, 1), 
+        new AbstractMap.SimpleEntry<Integer, Integer>(0, 1)         //down
+        //new AbstractMap.SimpleEntry<Integer, Integer>(1, 1)
+        );
+
+    public static List<AbstractMap.SimpleEntry<Integer, Integer>> getDirections()
+    {
+        return directions;
     }
 
     /**
