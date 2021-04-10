@@ -21,18 +21,6 @@ public class ScoreManager {
         totalScore += score;
     }
 
-    public void AllRewardsCollected()
-    {
-        requiredRewards=rewardsGoal;
-        totalScore += requiredRewards;
-    }
-
-    public void negativeScore()
-    {
-        requiredRewards=0;
-        totalScore = -1;
-    }
-
     public void addBonusReward(int score)
     {
         totalScore += score;

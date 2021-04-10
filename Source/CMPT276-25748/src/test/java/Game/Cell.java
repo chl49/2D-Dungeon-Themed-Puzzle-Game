@@ -28,10 +28,6 @@ public class Cell {
         return cellChar;
     }
 
-    public void setCellChar(char cellContent) {
-        cellChar=cellContent;
-    }
-
     /*
     * returns the position of the cell
     */

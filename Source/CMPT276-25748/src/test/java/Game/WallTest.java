@@ -8,7 +8,7 @@
 package Game;
 
 
-public class Wall extends Cell{
+public class WallTest extends Cell{
 
     /**
     * Wall constructor sets the condition true which makes the cell a barrier.
@@ -16,7 +16,7 @@ public class Wall extends Cell{
     * @param  pos - the position of the cell
     * @param  cellContent - the character letter in the cell
     */
-    public Wall(int pos, char cellContent)
+    public WallTest(int pos, char cellContent)
     {
         super(pos, cellContent);
 

@@ -1,14 +1,15 @@
 package Game;
-
+ 
 import java.awt.Image;
 import javax.swing.ImageIcon;
+
 import java.awt.Graphics2D;
 
 /**
  * BonusRewardImage class
- * Loading the image and call helper to draw the image onboard
+ * Loading the image and call helper to draw the image onBoardTest
  */
-public class BonusRewardImage {
+public class BonusRewardImageTest {
     private Image image;
  
    public void loadImages() {
@@ -24,7 +25,7 @@ public class BonusRewardImage {
     */
    public void draw(Graphics2D g2d, int xPos, int yPos)
    {
-       Helper.drawImage(image, g2d, xPos, yPos);
+       HelperTest.drawImage(image, g2d, xPos, yPos);
    }
     
 }
