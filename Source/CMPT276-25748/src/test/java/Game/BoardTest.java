@@ -2,6 +2,7 @@ package Game;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class BoardTest {
     
 
     @Test
-    public void readContentsFromFile() throws IOException {
+    public void readFromFileTest() throws IOException {
         String file = "src/resources/input.txt";
         FileReader fr = new FileReader(file);
         BufferedReader reader = new BufferedReader(fr);
@@ -62,6 +63,8 @@ public class BoardTest {
         + "\n\nTotal number of rows on the board = " + rowSize
         + "\nTotal number of columns on the board = " + rowCount
         + "\nTotal number of cells on the board = " + rowSize*rowCount);
+
+        assertTrue(rowSize*rowCount == 225);
         
     }
 
