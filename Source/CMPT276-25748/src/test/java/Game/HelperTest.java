@@ -16,7 +16,7 @@ public class HelperTest {
      */
     public static int xPos(int position)
     {
-        return GameManagerTest.instance().getBoard().calcXPos(position);
+        return GameManagerTestold.instance().getBoard().calcXPos(position);
     }
     /**
      * returns the y position of the BoardTest object in GameManagerTest
@@ -25,7 +25,7 @@ public class HelperTest {
      */
     public static int yPos(int position)
     {
-        return GameManagerTest.instance().getBoard().calcYPos(position);
+        return GameManagerTestold.instance().getBoard().calcYPos(position);
     }
 
     /**
@@ -59,7 +59,7 @@ public class HelperTest {
      */
     public static int getPosFrom2D(int x, int y)
     {
-        return GameManagerTest.instance().getBoard().calcPosFrom2D(x, y);
+        return GameManagerTestold.instance().getBoard().calcPosFrom2D(x, y);
     }
 
     /**
@@ -78,8 +78,8 @@ public class HelperTest {
         x += xDir;
         y += yDir;
 
-        int rowSize = GameManagerTest.instance().getBoard().rowSize;
-        int rowCount = GameManagerTest.instance().getBoard().rowCount;
+        int rowSize = GameManagerTestold.instance().getBoard().rowSize;
+        int rowCount = GameManagerTestold.instance().getBoard().rowCount;
 
         if(x >= 0 && x < rowSize
             && y >= 0 && y < rowCount)
@@ -92,6 +92,6 @@ public class HelperTest {
 
     public static void drawImage(Image image, Graphics2D g2d, int xPos, int yPos)
     {
-        GameManagerTest.instance().drawImage(image, g2d, xPos, yPos);
+        GameManagerTestold.instance().drawImage(image, g2d, xPos, yPos);
     }
 }

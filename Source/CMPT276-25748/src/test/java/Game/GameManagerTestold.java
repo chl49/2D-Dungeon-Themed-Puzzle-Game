@@ -27,14 +27,14 @@ import java.util.ArrayList;
 * Loads and supervises all activities needed for the Test to function. 
 * Handles draws and key inputs
 */
-public class GameManagerTest extends JPanel implements ActionListener {
+public class GameManagerTestold extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private Dimension d;
     private final int BLOCK_SIZE = 30;  //sprite size is 30x30 pixels
     private Timer timer;
 
-    private static GameManagerTest _instance = null;
+    private static GameManagerTestold _instance = null;
 
     private Board board;
     private Player player;
@@ -56,11 +56,11 @@ public class GameManagerTest extends JPanel implements ActionListener {
 
     private boolean isDebug = false;
 
-    public static GameManagerTest instance()
+    public static GameManagerTestold instance()
     {
         if(_instance == null)
         {
-            _instance = new GameManagerTest();
+            _instance = new GameManagerTestold();
         }
 
         return _instance;
@@ -198,7 +198,7 @@ public class GameManagerTest extends JPanel implements ActionListener {
     public void createBoard() {
     
         try {
-            board = new Board("./src/resources/input.txt");
+            board = new Board("./src/resources/testinput.txt");
             renderables.add(board);
             var cells = board.getCellArray();
 
