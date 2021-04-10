@@ -6,17 +6,17 @@ import java.awt.Graphics2D;
 * Player class
 * Player controlled object
 */
-public class Player extends Movable implements Renderable{
+public class PlayerTest extends Movable implements Renderable{
 
-    private PlayerAnimation render;
+    private PlayerAnimationTest render;
 
     private int lastPos = 0;
 
-    public Player(int startingPos)
+    public PlayerTest(int startingPos)
     {
         pos = startingPos;
-        originalPos=startingPos;
-        render = new PlayerAnimation();
+
+        render = new PlayerAnimationTest();
         render.loadImages();
     }
 
@@ -42,11 +42,11 @@ public class Player extends Movable implements Renderable{
     @Override
     public void draw(Graphics2D g2d) {
         
-        int xPos = Helper.xPos(pos);
-        int yPos = Helper.yPos(pos);
+        int xPos = HelperTest.xPos(pos);
+        int yPos = HelperTest.yPos(pos);
 
-        int xDir = xPos - Helper.xPos(lastPos);
-        int yDir = yPos - Helper.yPos(lastPos);
+        int xDir = xPos - HelperTest.xPos(lastPos);
+        int yDir = yPos - HelperTest.yPos(lastPos);
 
         render.draw(g2d, xDir, yDir, xPos, yPos);
         

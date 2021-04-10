@@ -8,27 +8,27 @@ import java.util.ArrayList;
 
 /**
 * AIPathManager class
-* Calculates paths for enemies to move towards the player.
-* Holds references to the Player and Board.
+* Calculates paths for enemies to move towards the PlayerTest.
+* Holds references to the PlayerTest and BoardTest.
 */
 
-public class AIPathManager 
+public class AIPathManagerTest 
 {
     public List<AbstractMap.SimpleEntry<Integer, Integer>> directions;
 
-    public Player playerRef;
-    public Board boardRef;
+    public PlayerTest playerRef;
+    public BoardTest BoardTestRef;
 
     /**
     * Calculates paths for enemies to move towards the player.
-    * Holds references to the Player and Board.
+    * Holds references to the Player and BoardTest.
     * Creates and directional array in the constructor,
     * diagonal movement is commented out
     *
-    * @param    player reference to the Player object
-    * @param    board reference to the Board object
+    * @param    PlayerTest reference to the Player object
+    * @param    BoardTest reference to the BoardTest object
     */
-    public AIPathManager(Player player, Board board)
+    public AIPathManagerTest(PlayerTest player, BoardTest BoardTest)
     {
         directions = Arrays.asList(
         new AbstractMap.SimpleEntry<Integer, Integer>(1, 0),
@@ -42,7 +42,7 @@ public class AIPathManager
         );
 
         playerRef = player;
-        boardRef = board;
+        BoardTestRef = BoardTest;
     }
 
     /**
@@ -60,7 +60,7 @@ public class AIPathManager
         var startNode = new GridCell(null, currentPos);
 
         var targetPlayerPos = playerRef.getNextPosition();
-        if(!boardRef.isEmpty(playerRef.getNextPosition()))
+        if(!BoardTestRef.isEmpty(playerRef.getNextPosition()))
         {
             targetPlayerPos = playerRef.getPosition();
         }
@@ -119,21 +119,21 @@ public class AIPathManager
 
             for(var dir : directions)
             {
-                int xPos = Helper.xPos(currentNode.pos);
-                int yPos = Helper.yPos(currentNode.pos);
+                int xPos = HelperTest.xPos(currentNode.pos);
+                int yPos = HelperTest.yPos(currentNode.pos);
                 
                 xPos += dir.getKey();
                 yPos += dir.getValue();
 
-                if(xPos < 0 || xPos >= boardRef.rowSize
-                || yPos < 0 || yPos >= boardRef.rowCount)
+                if(xPos < 0 || xPos >= BoardTestRef.rowSize
+                || yPos < 0 || yPos >= BoardTestRef.rowCount)
                 {
                     continue;
                 }
 
-                var newPos = Helper.getPosFrom2D(xPos, yPos);
+                var newPos = HelperTest.getPosFrom2D(xPos, yPos);
 
-                if(!boardRef.isEmpty(newPos))
+                if(!BoardTestRef.isEmpty(newPos))
                 {
                     continue;
                 }
@@ -152,10 +152,10 @@ public class AIPathManager
                     }
                 }
 
-                int childXPos = Helper.xPos(child.pos);
-                int childYPos = Helper.yPos(child.pos);
-                int endXPos = Helper.xPos(endNode.pos);
-                int endYPos = Helper.yPos(endNode.pos);
+                int childXPos = HelperTest.xPos(child.pos);
+                int childYPos = HelperTest.yPos(child.pos);
+                int endXPos = HelperTest.xPos(endNode.pos);
+                int endYPos = HelperTest.yPos(endNode.pos);
 
                 //distance formula between two 2D points before the root
                 child.h = (float)(Math.pow((float)(childXPos - endXPos), 2) + Math.pow((float)(childYPos - endYPos), 2));

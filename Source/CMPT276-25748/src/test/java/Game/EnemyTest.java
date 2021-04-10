@@ -6,16 +6,15 @@ import java.awt.Graphics2D;
 * Enemy class
 * Enemy that moves towards the player.
 */
-public class Enemy extends Movable implements Renderable {
+public class EnemyTest extends Movable implements Renderable {
 
     EnemyAnimation render;
 
     private int lastPos = 0;
 
-    public Enemy(int startingPos)
+    public EnemyTest(int startingPos)
     {
         pos = startingPos;
-        originalPos = startingPos;
 
         render = new EnemyAnimation();
         render.loadImages();
@@ -29,9 +28,9 @@ public class Enemy extends Movable implements Renderable {
     @Override
     public void draw(Graphics2D g2d) {
 
-        var pos2D = Helper.get2Dpos(pos);
-        int xDir = pos2D[0] - Helper.xPos(lastPos);
-        int yDir = pos2D[1] - Helper.yPos(lastPos);
+        var pos2D = HelperTest.get2Dpos(pos);
+        int xDir = pos2D[0] - HelperTest.xPos(lastPos);
+        int yDir = pos2D[1] - HelperTest.yPos(lastPos);
         render.draw(g2d, xDir, yDir, pos2D[0], pos2D[1]);
     }
 

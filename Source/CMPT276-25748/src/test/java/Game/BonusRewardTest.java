@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 * The class will have a duration time that whenever it passes the time, 
 * the bonus reward will disappear. 
 */
-public class BonusReward extends Interactable implements Renderable{
+public class BonusRewardTest extends Interactable implements Renderable{
 
     BonusRewardImage render;
     private int duration = 20;
@@ -26,18 +26,16 @@ public class BonusReward extends Interactable implements Renderable{
         }
         return false;
     }
-
     /** 
      * The function will check if the reward is expired or not
      * @param inputPos      takes the position input
      * @param inputScore    takes the score input
      * @return boolean
      */
-    public BonusReward(int inputPos, int inputScore)
+    public BonusRewardTest(int inputPos, int inputScore)
     {
         
          position = inputPos;
-         originalPos = inputPos;
          score = inputScore;
          isActive = true;
 
@@ -57,7 +55,7 @@ public class BonusReward extends Interactable implements Renderable{
     @Override
     public void draw(Graphics2D g2d) 
     {
-        var pos2D = Helper.get2Dpos(position);
+        var pos2D = HelperTest.get2Dpos(position);
         render.draw(g2d, pos2D[0], pos2D[1]);
     }
   
@@ -70,12 +68,5 @@ public class BonusReward extends Interactable implements Renderable{
     {
         return isActive;
     }
-
-    
-    public void setActive(boolean isActive)
-   {
-       duration = 20;
-       this.isActive = isActive;
-   }
     
 }

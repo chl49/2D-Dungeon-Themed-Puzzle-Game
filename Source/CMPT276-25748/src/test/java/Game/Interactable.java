@@ -8,7 +8,6 @@ package Game;
 public class Interactable {
 
    protected int position;
-   protected int originalPos;
    protected int score = 0;
    protected boolean isActive = false;
  
@@ -19,11 +18,6 @@ public class Interactable {
    public int getPosition()
    {
        return position;
-   }
-
-   public int getOriginal()
-   {
-       return originalPos;
    }
  
    

@@ -1,23 +1,24 @@
 
 package Game;
 import java.awt.Graphics2D;
+ 
+ 
 /**
  * Rewards class
  * This class will receive input for (position and score) and render the image
  * at given position.
  */
-public class Rewards extends Interactable implements Renderable{
+public class RewardsTest extends Interactable implements Renderable{
  
-   RewardImage render;
+   RewardImageTest render;
  
-   public Rewards(int inputPos, int inputScore)
+   public RewardsTest(int inputPos, int inputScore)
    {
         position = inputPos;
-        originalPos = inputPos;
         score = inputScore;
         isActive = true;
 
-        render = new RewardImage();
+        render = new RewardImageTest();
         render.loadImages();
    }
  
@@ -28,7 +29,7 @@ public class Rewards extends Interactable implements Renderable{
    @Override
    public void draw(Graphics2D g2d) {
  
-        var pos2D = Helper.get2Dpos(position);
+        var pos2D = HelperTest.get2Dpos(position);
         render.draw(g2d, pos2D[0], pos2D[1]);
    }
  

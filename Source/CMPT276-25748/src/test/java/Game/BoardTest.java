@@ -1,11 +1,13 @@
 /**
-* Board class
-* Has all the data about the entire board, the types of cells and creates an array of cells.
-* Has various methods which return information about the board and the cells and also to draw the board.
+* BoardTest class
+* Has all the data about the entire BoardTest, the types of cells and creates an array of cells.
+* Has various methods which return information about the BoardTest and the cells and also to draw the BoardTest.
 */
 
 package Game;
 
+import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,12 +15,11 @@ import java.io.IOException;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
-public class Board implements Renderable {
+public class BoardTest implements Renderable {
 
     private Image map = new ImageIcon("Source/CMPT276-25748/src/sprite/map.png").getImage();
     private Image newmap = new ImageIcon("Source/CMPT276-25748/src/sprite/newmap.png").getImage();
     private Image image = map;
-    String inputFile;
     int rowCount;
     int rowSize;
     Cell [] cellArray;
@@ -29,16 +30,16 @@ public class Board implements Renderable {
     // and creates an array of Cells
 
     /**
-    * Reads the contents of a file which allows us to render the different cells on the game board.
+    * Reads the contents of a file which allows us to render the different cells on the Test BoardTest.
     * Creates an array of type cell.
     *
     * @param    fileName gets the file name to load various characters from.
     */
-    public Board(String fileName)  throws IOException {
+    public BoardTest(String fileName)  throws IOException {
 
         // reading from the text file and storing into a String variable
         var fileContent = readFile(fileName);
-        inputFile=fileContent;
+
         // pass fileContent to a function that will create a cell array
         cellArray = createCellArray(fileContent);
     }
@@ -48,6 +49,7 @@ public class Board implements Renderable {
     *
     * @param    fileName gets the file name to load various characters from.
     */
+
     public String readFile(String fileName) throws IOException {
 
         String result;
@@ -77,14 +79,14 @@ public class Board implements Renderable {
     }
 
     /**
-    * returns the number of columns of cells on the game board
+    * returns the number of columns of cells on the Test BoardTest
     */  
     public int getNoOfColumns () {
         return rowSize;
     }
 
     /*
-    * returns the number of rows of cells on the game board
+    * returns the number of rows of cells on the Test BoardTest
     */
     public int getNoOfRows () {
         return rowCount;
@@ -93,6 +95,7 @@ public class Board implements Renderable {
     /*
     * method creates an array of cells with different letters in them for now showing the content of the cell.
     */
+    @Test
     private Cell[] createCellArray(String fileContent) {
 
         var length = fileContent.length();
@@ -104,7 +107,7 @@ public class Board implements Renderable {
 
             if(type == 'W')
             {
-                newCellArray[i] = new Wall(i, type);
+                newCellArray[i] = new WallTest(i, type);
             }
             else
             {
@@ -115,28 +118,17 @@ public class Board implements Renderable {
         return newCellArray;
     }
 
-    public void resetCellArray() {
-        // pass fileContent to a function that will create a cell array
-        cellArray = createCellArray(inputFile);
-    }
-
     /*
     * returns the array of cells
     */
     public Cell[] getCellArray() {
         return cellArray;
     }
-
-    public void setCellArray(Cell[] newArray) {
-        cellArray=newArray;
-    }
-
-
     public int calcXPos(int position)
     {
         return position % rowSize;
     }
-
+    
     public int calcYPos(int position)
     {
         return position / rowSize;
@@ -171,7 +163,7 @@ public class Board implements Renderable {
 
     @Override
     public void draw(Graphics2D g2d) {
-        Helper.drawImage(image, g2d, 0, 0);
+        HelperTest.drawImage(image, g2d, 0, 0);
     }
 
     @Override

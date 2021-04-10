@@ -10,7 +10,7 @@ import java.util.ArrayList;
 * PlayerAnimation class
 * Rendering component of the Player class
 */
-public class PlayerAnimation {
+public class PlayerAnimationTest {
     
     private final int AnimationDelay = 10;
     private int animPos = 0; //Animation Looper
@@ -78,7 +78,7 @@ public class PlayerAnimation {
             resetAnimCounter();
         }
 
-        Helper.drawImage(currentAnim.get(animPos), g2d, xPos, yPos);
+        HelperTest.drawImage(currentAnim.get(animPos), g2d, xPos, yPos);
     }
 
     /**

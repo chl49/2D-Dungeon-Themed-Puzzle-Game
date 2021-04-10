@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 * EnemyAnimation class
 * Rendering component of the Enemy class
 */
-public class EnemyAnimation {
+public class EnemyAnimationTest {
     
     private Image upImage;
     private Image downImage;
@@ -39,6 +39,6 @@ public class EnemyAnimation {
         } else {
             image = downImage;
         }
-        Helper.drawImage(image, g2d, xPos, yPos);
+        HelperTest.drawImage(image, g2d, xPos, yPos);
     }
 }

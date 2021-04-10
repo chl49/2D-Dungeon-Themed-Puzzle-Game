@@ -6,15 +6,15 @@ import javax.swing.ImageIcon;
 import java.awt.Graphics2D;
  
 /**
- * RewardImage class
- * This class will load the image for reward in the given position.
+ * PenaltyImage class
+ * This class will load the image at given position.
  */
-public class RewardImage {
+public class PenaltyImageTest {
   
    private Image image;
  
    public void loadImages() {
-       image = new ImageIcon("Source/CMPT276-25748/src/sprite/reward.png").getImage();
+       image = new ImageIcon("Source/CMPT276-25748/src/sprite/bomb.png").getImage();
    }
  
    
@@ -25,6 +25,6 @@ public class RewardImage {
     */
    public void draw(Graphics2D g2d, int xPos, int yPos)
    {
-       Helper.drawImage(image, g2d, xPos, yPos);
+       HelperTest.drawImage(image, g2d, xPos, yPos);
    }
 }

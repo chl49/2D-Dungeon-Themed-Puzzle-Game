@@ -1,20 +1,33 @@
+
 package Game;
 
-import static org.junit.Assert.assertTrue;
+import java.awt.EventQueue;
+import java.io.IOException;
 
-import org.junit.Test;
+import javax.swing.JFrame;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-{
-    /**
-     * Rigorous Test :-)
-     */
-    @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
+public class AppTest extends JFrame {
+
+
+    public AppTest() {
+
+        initUI();
+    }
+
+    public void initUI() {
+        add(GameManagerTest.instance());
+
+        setTitle("AppTest");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setSize(450, 450);
+        setLocationRelativeTo(null);
+    }
+    public static void main(String[] args) throws IllegalStateException, IOException {
+
+        EventQueue.invokeLater(() -> {
+
+            var ex = new AppTest();
+            ex.setVisible(true);
+        });
     }
 }
