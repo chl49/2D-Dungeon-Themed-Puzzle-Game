@@ -124,6 +124,37 @@ public class AIPathManager
                     continue;
                 }
 
+                //check if this position already considered
+                boolean explored = false;
+
+                for(var closedNode : closedList)
+                {
+                    if(closedNode.pos == newPos)
+                    {
+                        explored = true;
+                        break;
+                    }
+                }
+
+                if(explored)
+                {
+                    continue;
+                }
+
+                for(var openNode : openList)
+                {
+                    if(openNode.pos == newPos)
+                    {
+                        explored = true;
+                        break;
+                    }
+                }
+
+                if(explored)
+                {
+                    continue;
+                }
+
                 var newNode = new GridCell(currentNode, newPos);
                 children.add(newNode);
             }
@@ -145,7 +176,7 @@ public class AIPathManager
 
                 //distance formula between two 2D points before the root
                 child.h = (float)(Math.pow((float)(childXPos - endXPos), 2) + Math.pow((float)(childYPos - endYPos), 2));
-                //child.h = (float)Math.pow(child.h, 0.5f) * 0.5f;  //square root to get magnitude
+                child.h = (float)Math.pow(child.h, 0.5f);  //square root to get magnitude
 
                 child.g = currentNode.g + 1;
                 child.f = child.g + child.h;

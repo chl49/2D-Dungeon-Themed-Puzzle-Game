@@ -52,8 +52,6 @@ public class AIPathManagerTest {
     @Test
     public void testRandom()
     {
-        var totalSize = (board.rowSize - 2) * (board.rowCount - 2);
-
         for(int i = 0; i < 10; ++i)
         {
             //account for surrounding walls
@@ -71,24 +69,8 @@ public class AIPathManagerTest {
             enemy.setPosition(pos);
 
             System.out.println("Checking: Enemy: " + x + " " + y);
-            
 
-            for(int j = 0; j < totalSize - 1; ++j)
-            {
-                var nextPos = pathManager.getNextPos(enemy.getPosition());
-
-                if(nextPos == player.getNextPosition())
-                {
-                    System.out.println("Found in: " + j);
-                    break;
-                }
-                else
-                {
-                    enemy.setPosition(nextPos);
-                }
-
-                assertTrue(j < totalSize - 2);  //fails loop runs out (couldn't find the player)
-            }
+            assertTrue(findPath(player, enemy));
         }
 
         System.out.println("Test Completed: AIPathManager - Random");
@@ -97,8 +79,6 @@ public class AIPathManagerTest {
     @Test
     public void testManualCase()
     {
-        var totalSize = (board.rowSize - 2) * (board.rowCount - 2);
-
         //account for surrounding walls
         int x = 12;   
         int y = 3;
@@ -115,6 +95,28 @@ public class AIPathManagerTest {
 
         System.out.println("Checking: Enemy: " + x + " " + y);
         
+        assertTrue(findPath(player, enemy));
+        
+        System.out.println("Test Completed: AIPathManager - Manual Case");
+    }
+
+    @Test
+    public void testObstacle() throws IOException
+    {
+        board = new Board("./src/resources/test_board_blocking.txt");
+
+        player = new Player(board.calcPosFrom2D(7, 2));   //above the wall
+        enemy = new Enemy(board.calcPosFrom2D(7, 10));      //below the wall
+        pathManager = new AIPathManager(player, board);
+
+        assertTrue(findPath(player, enemy));
+        
+        System.out.println("Test Completed: AIPathManager - Obstacle Case");
+    }
+
+    private boolean findPath(Player player, Enemy enemy)
+    {
+        var totalSize = (board.rowSize - 2) * (board.rowCount - 2);
 
         for(int j = 0; j < totalSize - 1; ++j)
         {
@@ -123,18 +125,15 @@ public class AIPathManagerTest {
             if(nextPos == player.getNextPosition())
             {
                 System.out.println("Found in: " + j);
-                break;
+                return true;
             }
             else
             {
                 enemy.setPosition(nextPos);
             }
-
-            assertTrue(j < totalSize - 2);  //fails loop runs out (couldn't find the player)
         }
-        
 
-        System.out.println("Test Completed: AIPathManager - Manual Case");
+        return false;
     }
 
 }
