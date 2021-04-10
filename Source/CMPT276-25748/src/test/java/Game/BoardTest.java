@@ -31,7 +31,7 @@ public class BoardTest {
             }
         }
         
-        assertEquals(15, newCellArray.length);
+        assertEquals(length, newCellArray.length);
     }
     
 
