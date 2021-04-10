@@ -1,11 +1,11 @@
 package Game;
+import org.junit.Before;
+import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import org.junit.Test;
-import org.junit.Before;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -52,7 +52,10 @@ public class GameManagerTest extends JPanel implements ActionListener {
     private ArrayList<Interactable> interactable = new ArrayList<Interactable>();
     private ArrayList<Integer> goalPositions = new ArrayList<Integer>();
     private int requiredRewardsCount = 0;
+    Graphics2D g2d;
+
     private boolean isDebug = false;
+
     public static GameManagerTest instance()
     {
         if(_instance == null)
@@ -101,13 +104,19 @@ public class GameManagerTest extends JPanel implements ActionListener {
     }
     
     private void initBoard() {
+        createBoard();
     }
     @Test
     public void initRendering()
     {
         assertTrue(isFocusable());
         System.out.println("Test Completed: GameManager - initRendering");
->>>>>>> Stashed changes
+        d = new Dimension(600, 600);
+        //d = new Dimension(BoardTest.rowSize, BoardTest.rowCount);
+
+        setFocusable(true);
+        assertTrue(isFocusable());
+        System.out.println("Test Completed: GameManager - initRendering");
 
         setBackground(Color.black);
     }
@@ -361,17 +370,6 @@ public class GameManagerTest extends JPanel implements ActionListener {
             inTest=false;
         }
         assertFalse(inTest);
-
-        // scoreManager.AllRewardsCollected();
-        // assertEquals(scoreManager.getTotalScore(),requiredRewardsCount);
-        // assertTrue(scoreManager.hasReachedRewardsGoal());
-        // player.setPosition(217);
-        // assertTrue(hitGoal());
-        // if(checkTestConditions())
-        // {
-        //     inTest=false;
-        // }
-        // assertFalse(inTest);
         System.out.println("Test Completed: GameManager - updateTestLogic");
     }
 
