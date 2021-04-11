@@ -342,7 +342,7 @@ public class GameManagerTest extends JPanel implements ActionListener {
         //updateInteractions();
         //check win/lose conditions
         assertTrue(inTest);
-        scoreManager.AllRewardsCollected();
+        scoreManager.allRewardsCollected();
         assertEquals(scoreManager.getTotalScore(),requiredRewardsCount);
         assertTrue(scoreManager.hasReachedRewardsGoal());
         player.setPosition(217);
@@ -424,25 +424,24 @@ public class GameManagerTest extends JPanel implements ActionListener {
                 continue;
             }
             
-        if (i instanceof BonusReward)
-        {
-            ((BonusReward)i).decreaseLife();
-            if (((BonusReward)i).isExpired()){
-                i.setActive(false);
+            if (i instanceof BonusReward)
+            {
+                ((BonusReward)i).decreaseLife();
+                if (((BonusReward)i).isExpired()){
+                    i.setActive(false);
+                }
+                assertTrue(i.isActive());
+                ((BonusReward)i).endLife();
+                if (((BonusReward)i).isExpired()){
+                    i.setActive(false);
+                }
+                assertFalse(i.isActive());
+                ((BonusReward)i).setActive(true);
+                if (((BonusReward)i).isExpired()){
+                    i.setActive(false);
+                }
+                assertTrue(i.isActive());
             }
-            assertTrue(i.isActive());
-            ((BonusReward)i).endLife();
-            if (((BonusReward)i).isExpired()){
-                i.setActive(false);
-            }
-            assertFalse(i.isActive());
-            ((BonusReward)i).setActive(true);
-            if (((BonusReward)i).isExpired()){
-                i.setActive(false);
-            }
-            assertTrue(i.isActive());
-
-        }
             int newPosition = i.getPosition();
             player.setPosition(newPosition);
             if(player.getPosition() == i.getPosition())
