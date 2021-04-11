@@ -51,7 +51,7 @@ public class GameManager extends JPanel implements ActionListener {
     private ArrayList<Interactable> interactable = new ArrayList<Interactable>();
     private ArrayList<Integer> goalPositions = new ArrayList<Integer>();
     private int requiredRewardsCount = 0;
-    private int bonusValue = 3;
+    private int bonusValue = 5;
     private int penaltyValue = 4;
     private int rewardValue = 1;
 
