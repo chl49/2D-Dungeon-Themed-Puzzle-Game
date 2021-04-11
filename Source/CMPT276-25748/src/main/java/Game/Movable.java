@@ -15,7 +15,7 @@ public class Movable {
         return pos;
     }
 
-    public int getOriginal()
+    public int getOriginalPos()
    {
        return originalPos;
    }

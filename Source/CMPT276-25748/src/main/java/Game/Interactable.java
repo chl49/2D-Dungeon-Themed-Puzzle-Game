@@ -21,7 +21,7 @@ public class Interactable {
        return position;
    }
 
-   public int getOriginal()
+   public int getOriginalPos()
    {
        return originalPos;
    }

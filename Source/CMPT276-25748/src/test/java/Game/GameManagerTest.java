@@ -312,7 +312,7 @@ public class GameManagerTest extends JPanel implements ActionListener {
 
             if(player != null)
             {
-                player.setNextPosition(HelperTest.move(player.getPosition(), moveX, moveY));
+                player.setNextPosition(Helper.move(player.getPosition(), moveX, moveY));
                 isDirty = true;
             }
         }

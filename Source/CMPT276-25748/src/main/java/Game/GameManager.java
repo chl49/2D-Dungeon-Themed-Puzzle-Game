@@ -190,11 +190,11 @@ public class GameManager extends JPanel implements ActionListener {
 
         for(var m : movables)
         {
-            m.setPosition(m.getOriginal());
+            m.setPosition(m.getOriginalPos());
         }
         for(var i : interactable)
         {
-            i.setPosition(i.getOriginal());
+            i.setPosition(i.getOriginalPos());
         }
 
         // var cells = board.getCellArray();
