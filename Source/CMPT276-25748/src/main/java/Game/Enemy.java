@@ -15,7 +15,7 @@ public class Enemy extends Movable implements Renderable {
     public Enemy(int startingPos)
     {
         pos = startingPos;
-
+        originalPos = startingPos;
         render = new EnemyAnimation();
         render.loadImages();
     }

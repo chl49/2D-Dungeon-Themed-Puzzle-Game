@@ -8,11 +8,17 @@ package Game;
 public class Movable {
     protected int pos;
     protected int nextPos;
+    protected int originalPos;
 
     public int getPosition()
     {
         return pos;
     }
+
+    public int getOriginalPos()
+   {
+       return originalPos;
+   }
 
     public int getNextPosition()
     {

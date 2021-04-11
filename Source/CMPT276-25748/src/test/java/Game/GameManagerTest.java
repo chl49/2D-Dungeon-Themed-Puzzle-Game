@@ -1,5 +1,11 @@
 package Game;
-
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -14,23 +20,21 @@ import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import java.util.Random;
 import java.util.ArrayList;
 
 /**
 * GameManager class
-* Loads and supervises all activities needed for the game to function. 
+* Loads and supervises all activities needed for the Test to function. 
 * Handles draws and key inputs
 */
-public class GameManager extends JPanel implements ActionListener {
+public class GameManagerTest extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 1L;
     private Dimension d;
     private final int BLOCK_SIZE = 30;  //sprite size is 30x30 pixels
     private Timer timer;
-    private Random rand = new Random();
 
-    private static GameManager _instance = null;
+    private static GameManagerTest _instance = null;
 
     private Board board;
     private Player player;
@@ -38,32 +42,25 @@ public class GameManager extends JPanel implements ActionListener {
     private ArrayList<Movable> movables = new ArrayList<Movable>();
     private Image winScreen = new ImageIcon("Source/CMPT276-25748/src/sprite/win.png").getImage();
     private Image loseScreen = new ImageIcon("Source/CMPT276-25748/src/sprite/lose.png").getImage();
-    private Image menuScreen = new ImageIcon("Source/CMPT276-25748/src/sprite/titlemenu.png").getImage();
     private AIPathManager pathManager;
     private ScoreManager scoreManager;
     private boolean isDirty = false;
-    private boolean inGame = false;
-    private boolean validKey = false;
+    private boolean inTest = true;
     private int screenSwitch = 0;
-    private String start;
     private String score = "Score:";
     private String message = score+"0";
     private ArrayList<Interactable> interactable = new ArrayList<Interactable>();
     private ArrayList<Integer> goalPositions = new ArrayList<Integer>();
     private int requiredRewardsCount = 0;
-    private int bonusValue = 3;
-    private int penaltyValue = 4;
-    private int rewardValue = 1;
+    Graphics2D g2d;
 
     private boolean isDebug = false;
 
-    
-
-    public static GameManager instance()
+    public static GameManagerTest instance()
     {
         if(_instance == null)
         {
-            _instance = new GameManager();
+            _instance = new GameManagerTest();
         }
 
         return _instance;
@@ -72,98 +69,137 @@ public class GameManager extends JPanel implements ActionListener {
      * Initalize variables and class instances
      * 
      */
-    private void init()
+
+    @Before
+    public void init()
     {
-        initTimer();
+        //initTimer();
         initBoard();
-        initRendering();
+        //initRendering();
 
-        if(isDebug)
-        {
-            initDebugEntities();
-        }
+        // if(isDebug)
+        // {
+        //     initDebugEntities();
+        // }
 
-        initControls();
-        
+        // initControls();
         pathManager = new AIPathManager(player, board);
         scoreManager = new ScoreManager(requiredRewardsCount);
+        //assertNotNull(pathManager);
+        //assertNotNull(scoreManager);
+        //System.out.println("Test Completed: GameManager - init");
+
     }
    
     /**
      * create timer instance to schedule threads
      */
-    private void initTimer() {
+    @Test
+    public void initTimer() {
         timer = new Timer(30, this);
         timer.start();
+        assertTrue(timer.isRunning());
+        System.out.println("Test Completed: GameManager - initTimer");
         
     }
     
     private void initBoard() {
         createBoard();
     }
-
-    private void initRendering()
+    @Test
+    public void initRendering()
     {
+        assertTrue(isFocusable());
+        System.out.println("Test Completed: GameManager - initRendering");
         d = new Dimension(600, 600);
-        //d = new Dimension(board.rowSize, board.rowCount);
+        //d = new Dimension(BoardTest.rowSize, BoardTest.rowCount);
 
         setFocusable(true);
+        assertTrue(isFocusable());
+        System.out.println("Test Completed: GameManager - initRendering");
 
         setBackground(Color.black);
     }
 
-    private void initDebugEntities()
+    @Test
+    public void initDebugEntities()
     {
         player = new Player(16);
         renderables.add(player);
         movables.add(player);
+
+        assertEquals(player.getPosition(), 16);
+        System.out.println("Player at: "
+        + String.valueOf(player.getPosition()));
  
         Enemy enemy = new Enemy(22);
         renderables.add(enemy);
         movables.add(enemy);
 
-        Rewards reward = new Rewards(18, rewardValue);
+        assertEquals(enemy.getPosition(), 22);
+        System.out.println("Enemy at: "
+        + String.valueOf(player.getPosition()));
+
+        Rewards reward = new Rewards(18, 1);
         renderables.add(reward);
         interactable.add(reward);
 
-        Rewards reward2 = new Rewards(200, rewardValue);
+
+        Rewards reward2 = new Rewards(200, 1);
         renderables.add(reward2);
         interactable.add(reward2);
 
-        Rewards reward3 = new Rewards(174, rewardValue);
+        Rewards reward3 = new Rewards(174, 1);
         renderables.add(reward3);
         interactable.add(reward3);
 
-        Rewards reward4 = new Rewards(34, rewardValue);
+        Rewards reward4 = new Rewards(34, 1);
         renderables.add(reward4);
         interactable.add(reward4);
 
-        Rewards reward5 = new Rewards(65, rewardValue);
+        Rewards reward5 = new Rewards(65, 1);
         renderables.add(reward5);
         interactable.add(reward5);
 
-        Penalty penalty = new Penalty(50, penaltyValue);
+        System.out.println("Rewards at: "
+        + String.valueOf(reward.getPosition())+ ", "
+        + String.valueOf(reward2.getPosition())+ ", "
+        + String.valueOf(reward3.getPosition())+ ", "
+        + String.valueOf(reward4.getPosition())+ ", "
+        + String.valueOf(reward5.getPosition())
+        );
+
+        Penalty penalty = new Penalty(50, 1);
         renderables.add(penalty);
         interactable.add(penalty);
+
+        System.out.println("Penalty at: "
+        + String.valueOf(penalty.getPosition()));
 
         BonusReward bonusreward = new BonusReward(40, 1);
         renderables.add(bonusreward);
         interactable.add(bonusreward);
 
-    }
+        System.out.println("BonusReward at: "
+        + String.valueOf(bonusreward.getPosition()));
 
-    private void initControls() {
-        addKeyListener(new TAdapter());
+        System.out.println("Test Completed: GameManager - initDebugEntities");
+    }
+    @Test
+    public void initControls() {
+        TAdapter T = new TAdapter();
+        addKeyListener(T);
+        assertNotNull(T);
+        System.out.println("Test Completed: GameManager - initControls");
     }
     /**
-     * create Board class and insert objects into cells 
+     * create BoardTest class and insert objects into cells 
      */
-    private void createBoard() {
+    public void createBoard() {
     
         try {
-            board = new Board("Source/CMPT276-25748/src/resources/input.txt");
+            board = new Board("./src/resources/input.txt");
             renderables.add(board);
-
             var cells = board.getCellArray();
 
             for(var c : cells)
@@ -173,10 +209,10 @@ public class GameManager extends JPanel implements ActionListener {
                 initFromCell(c);
             }
 
-            //see board output
+            //see BoardTest output
             if(isDebug)
             {
-                debugBoardOutput(board);
+                debugBoardOutput();
             }
             
         } catch (IOException e) {
@@ -185,50 +221,12 @@ public class GameManager extends JPanel implements ActionListener {
         }
     }
 
-    private void resetBoard() {
-        board.resetCellArray();
-
-        for(var m : movables)
-        {
-            m.setPosition(m.getOriginalPos());
-        }
-        for(var i : interactable)
-        {
-            i.setPosition(i.getOriginalPos());
-        }
-
-        // var cells = board.getCellArray();
-        // for(var c : cells)
-        // {
-        //     //creates player, enemies, interactables
-        //     //also finds goal location(s)
-        //     resetFromCell(c);
-        // }
-        // try {
-        //     board.resetCellArray();
-        //      = new Board("Source/CMPT276-25748/src/resources/input.txt");
-        //     var cells = board.getCellArray();
-
-        //     for(var c : cells)
-        //     {
-        //         //creates player, enemies, interactables
-        //         //also finds goal location(s)
-        //         resetFromCell(c);
-        //     }  
-        // } catch (IOException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
-    }
-
-    
-
     @Override
     public void addNotify() {
         //START UP HERE
         super.addNotify();
 
-        init(); //init game
+        //init(); //init Test
     }
 
     @Override
@@ -245,45 +243,39 @@ public class GameManager extends JPanel implements ActionListener {
 
     private void doDrawing(Graphics g) {
 
-        Graphics2D g2d = (Graphics2D) g;
+        g2d = (Graphics2D) g;
 
         g2d.setColor(Color.black);
         g2d.fillRect(0, 0, d.width, d.height);
-        if(inGame){
-            for(var r : renderables)
-          {
-            if(r.isVisible())
-                r.draw(g2d);
-          }
-          var small = new Font("Helvetica", Font.BOLD, 20);
-          var fontMetrics = this.getFontMetrics(small);  
-          g.setColor(Color.white);
-          g.setFont(small);
-          g.drawString(message, 10, 15);   
-        }
-        else{
+        // if(inTest){
+        //     for(var r : renderables)
+        //   {
+        //     if(r.isVisible())
+        //         r.draw(g2d);
+        //   }
+        //   var small = new Font("Helvetica", Font.BOLD, 20);
+        //   var fontMetrics = this.getFontMetrics(small);
 
-            switch(screenSwitch){
-                case 1:
-                  Helper.drawImage(winScreen, g2d, 0, 0);
-                  break;
-                case 2:
-                  Helper.drawImage(loseScreen, g2d, 0, 0);
-                  break;
-                default:
-                  Helper.drawImage(menuScreen, g2d, 0, 0);
-                  break;
-            }
-            if(screenSwitch==0){
-                var small = new Font("Arial", Font.BOLD, 20);
-                var fontMetrics = this.getFontMetrics(small);  
-                g.setColor(Color.cyan);
-                g.setFont(small);
-                start="press 's' to play game";
-                g.drawString(start, 120, 350);  
-            }
-        }
+        //   g.setColor(Color.white);
+        //   g.setFont(small);
+        //   //fontMetrics.stringWidth(message)
+        //   g.drawString(message, 10, 15);
+        // }
+        // else{
+        //     switch(screenSwitch){
+        //         case 1:
+        //           HelperTest.drawImage(winScreen, g2d, 0, 0);
+        //           break;
+        //         case 2:
+        //           HelperTest.drawImage(loseScreen, g2d, 0, 0);
+        //           break;
+        //         default:
+        //           System.out.println("screenError");
+        //           break;
+        //       }
+        // }
     }
+
     /**
      * directs specific actions for arrow key inputs
      */
@@ -296,44 +288,32 @@ public class GameManager extends JPanel implements ActionListener {
 
             int moveX = 0;
             int moveY = 0;
-            int key = e.getKeyCode();
-            if (inGame) {
-                if (key == KeyEvent.VK_LEFT) {
-                    moveX = -1;
-                    moveY = 0;
-                    validKey=true;
-             } else if (key == KeyEvent.VK_RIGHT) {
-                    moveX = 1;
-                    moveY = 0;
-                    validKey=true;
-                } else if (key == KeyEvent.VK_UP) {
-                    moveX = 0;
-                    moveY = -1;
-                    validKey=true;
-              } else if (key == KeyEvent.VK_DOWN) {
-                    moveX = 0;
-                    moveY = 1;
-                    validKey=true;
-                } else if (key == KeyEvent.VK_PAUSE) {
-                    if (timer.isRunning()) {
-                        timer.stop();
-                    } else {
-                        timer.start();
-                    }
-                }
 
-                if(player != null)
-                {
-                   player.setNextPosition(Helper.move(player.getPosition(), moveX, moveY));
-                   isDirty = true;
+            int key = e.getKeyCode();
+            if (key == KeyEvent.VK_LEFT) {
+                moveX = -1;
+                moveY = 0;
+            } else if (key == KeyEvent.VK_RIGHT) {
+                moveX = 1;
+                moveY = 0;
+            } else if (key == KeyEvent.VK_UP) {
+                moveX = 0;
+                moveY = -1;
+            } else if (key == KeyEvent.VK_DOWN) {
+                moveX = 0;
+                moveY = 1;
+            } else if (key == KeyEvent.VK_PAUSE) {
+                if (timer.isRunning()) {
+                    timer.stop();
+                } else {
+                    timer.start();
                 }
             }
-            else {
-                if (key == 's' || key == 'S') {
-                    if(screenSwitch==0){
-                        inGame = true;
-                    }
-                }
+
+            if(player != null)
+            {
+                player.setNextPosition(Helper.move(player.getPosition(), moveX, moveY));
+                isDirty = true;
             }
         }
     }
@@ -341,41 +321,63 @@ public class GameManager extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if(isDirty && validKey)
+        if(isDirty)
         {
-            updateGameLogic();
+            updateTestLogic();
             isDirty = false;
-            validKey = false;
         }
         
-        updateMovables();
+        //updateMovables();
         
         repaint();
     }
     /**
-     * update game's next action and check conditions 
+     * update Test's next action and check conditions 
      */
-
-    private void updateGameLogic()
+    @Test
+    public void updateTestLogic()
     {
-        updateEnemyPathing();
-        updateMovables();
-        updateInteractions();
-
+        //updateEnemyPathing();
+        //updateMovables();
+        //updateInteractions();
         //check win/lose conditions
-        if(checkGameConditions())
+        assertTrue(inTest);
+        scoreManager.allRewardsCollected();
+        assertEquals(scoreManager.getTotalScore(),requiredRewardsCount);
+        assertTrue(scoreManager.hasReachedRewardsGoal());
+        player.setPosition(217);
+        assertTrue(hitGoal());
+        if(checkTestConditions())
         {
-            //System.out.println("Game Ends");
-            inGame=false;
-
-            //game is over, handle it
+            inTest=false;
         }
+        assertFalse(inTest);
+        inTest=true;
+        scoreManager.negativeScore();
+        if(checkTestConditions())
+        {
+            inTest=false;
+        }
+        assertFalse(inTest);
+        inTest=true;
+        for(var m : movables)
+        {
+            m.setNextPosition(77);
+            m.updatePosition();
+        }
+        if(checkTestConditions())
+        {
+            inTest=false;
+        }
+        assertFalse(inTest);
+        System.out.println("Test Completed: GameManager - updateTestLogic");
     }
 
     /**
      * update player and enemy's next position
      */
-    private void updateMovables()
+    @Test
+    public void updateMovables()
     {
         for(var m : movables)
         {
@@ -385,28 +387,35 @@ public class GameManager extends JPanel implements ActionListener {
                 m.setNextPosition(m.getPosition());
             }
             m.updatePosition();
+            assertEquals(m.getNextPosition(),m.getPosition());
+
         }
+        System.out.println("Test Completed: GameManager - updateMovables");
     }
     /**
      * pathManager determines the best move for the enemy
      */
-
-    private void updateEnemyPathing()
+    @Test
+    public void updateEnemyPathing()
     {
         for(var m : movables)
         {
             if(m instanceof Enemy)
             {
                 pathManager.setNextPosition(m);
+                assertNotEquals(m.getNextPosition(), m.getPosition());
             }
+
         }
+        System.out.println("Test Completed: GameManager - updateEnemyPathing");
+
     }
 
     /**
      * check all object's interactable conditions
      */
-
-    private void updateInteractions()
+    @Test
+    public void updateInteractions()
     {
         for(var i : interactable)
         {
@@ -415,55 +424,65 @@ public class GameManager extends JPanel implements ActionListener {
                 continue;
             }
             
-        if (i instanceof BonusReward)
-        {
-            ((BonusReward)i).decreaseLife();
-            if (((BonusReward)i).isExpired()){
-                //i.setActive(false);
-                Cell[] newCellArray = board.getCellArray();
-                newCellArray[i.getPosition()].setCellChar('o');
-                board.setCellArray(newCellArray);
-                int newposition=rand.nextInt(225);
-                while(newCellArray[newposition].getCellChar()!='o'){
-                    System.out.println("BIG WALL HERE");
-                    newposition=rand.nextInt(225);
+            if (i instanceof BonusReward)
+            {
+                ((BonusReward)i).decreaseLife();
+                if (((BonusReward)i).isExpired()){
+                    i.setActive(false);
                 }
-                newCellArray[newposition].setCellChar('b');
-                i.setPosition(newposition);
-                i.setActive(true);
+                assertTrue(i.isActive());
+                ((BonusReward)i).endLife();
+                if (((BonusReward)i).isExpired()){
+                    i.setActive(false);
+                }
+                assertFalse(i.isActive());
+                ((BonusReward)i).setActive(true);
+                if (((BonusReward)i).isExpired()){
+                    i.setActive(false);
+                }
+                assertTrue(i.isActive());
             }
-        }
-
+            int newPosition = i.getPosition();
+            player.setPosition(newPosition);
             if(player.getPosition() == i.getPosition())
             {
+                int oldScore = scoreManager.getTotalScore();
                 if(i instanceof Rewards)
                 {
                     scoreManager.addRequiredReward(i.getScore());
-                    System.out.println(scoreManager.getRequiredRewardsCollected());
-                    System.out.println(scoreManager.hasReachedRewardsGoal());
-                    System.out.println(scoreManager.hasReachedRewardsGoal());
+                    assertEquals(scoreManager.getTotalScore(),oldScore+i.getScore());
+                    System.out.println("current score: "+ oldScore+ ", "
+                    +"added reward: "+ i.getScore()+ ", "
+                    +"new score: "+ scoreManager.getTotalScore());
                     message = score + String.valueOf(scoreManager.getTotalScore());
                 }
 
                 if(i instanceof Penalty)
                 {
                     scoreManager.addPenalty(i.getScore());
+                    assertEquals(scoreManager.getTotalScore(),oldScore-i.getScore());
+                    System.out.println("current score: "+ oldScore+ ", "
+                    +"added penalty: "+ i.getScore()+ ", "
+                    +"new score: "+ scoreManager.getTotalScore());
                     message = score + String.valueOf(scoreManager.getTotalScore());
                 }
 
                 if(i instanceof BonusReward)
                 {
                     scoreManager.addBonusReward(i.getScore());
+                    assertEquals(scoreManager.getTotalScore(),oldScore+i.getScore());
+                    System.out.println("current score: "+ oldScore+ ", "
+                    +"added bonus: "+ i.getScore()+ ", "
+                    +"new score: "+ scoreManager.getTotalScore());
                     message = score + String.valueOf(scoreManager.getTotalScore());
                 }
-
                 i.setActive(false);
+                assertFalse(i.isActive());
+
             }
+            System.out.println("Test Completed: GameManager - updateInteractions");
         }
     }
-
-
-
     private boolean hitGoal(){
         Cell[] newCellArray = board.getCellArray();
             if(newCellArray[player.getPosition()].getCellChar()=='f')
@@ -477,10 +496,10 @@ public class GameManager extends JPanel implements ActionListener {
 
     /**
      * Checks whether player has met a winning or losing condition
-     * @return boolean for whether game should end
+     * @return boolean for whether Test should end
      */
 
-    private boolean checkGameConditions()
+    private boolean checkTestConditions()
     {
         if(scoreManager.hasReachedRewardsGoal())
         {
@@ -514,8 +533,8 @@ public class GameManager extends JPanel implements ActionListener {
     }
 
     /**
-     * returns the current board instance and it's map layout
-     * @return the Board class
+     * returns the current BoardTest instance and it's map layout
+     * @return the BoardTest class
      */
 
     public Board getBoard()
@@ -542,59 +561,6 @@ public class GameManager extends JPanel implements ActionListener {
             }
             case 'r':
             {
-                var reward = new Rewards(cell.pos, rewardValue);
-                renderables.add(reward);
-                interactable.add(reward);
-                requiredRewardsCount++;
-                return reward;
-            }
-            case 'b':
-            {
-                var reward = new BonusReward(cell.pos, bonusValue);
-                renderables.add(reward);
-                interactable.add(reward);
-                return reward;
-            }
-            case 'p':
-            {
-                var penalty = new Penalty(cell.pos, penaltyValue);
-                renderables.add(penalty);
-                interactable.add(penalty);
-                return penalty;
-            }
-            case 'm':
-            {
-                //make sure this refernces GameManager.player, not a local variable
-                player = new Player(cell.pos);
-                renderables.add(player);
-                movables.add(player);
-                return player;
-            }
-            case 'f':
-            {
-                goalPositions.add(cell.pos);
-            }
-            default:
-            {
-                return null;
-            }
-        }
-    }
-
-    public Object resetFromCell(Cell cell)
-    {
-        cell.getPosition();
-        switch (cell.cellChar) {
-            
-            case 'e':
-            {
-                var enemy = new Enemy(cell.pos);
-                renderables.add(enemy);
-                movables.add(enemy);
-                return enemy;
-            }
-            case 'r':
-            {
                 var reward = new Rewards(cell.pos, 1);
                 renderables.add(reward);
                 interactable.add(reward);
@@ -603,14 +569,14 @@ public class GameManager extends JPanel implements ActionListener {
             }
             case 'b':
             {
-                var reward = new BonusReward(cell.pos, 1);
+                var reward = new BonusReward(cell.pos, 3);
                 renderables.add(reward);
                 interactable.add(reward);
                 return reward;
             }
             case 'p':
             {
-                var penalty = new Penalty(cell.pos, 1);
+                var penalty = new Penalty(cell.pos, 2);
                 renderables.add(penalty);
                 interactable.add(penalty);
                 return penalty;
@@ -640,23 +606,25 @@ public class GameManager extends JPanel implements ActionListener {
     }
 
     /**
-     * function used for checking errors within the board class
-     * @param board the Board class instance being Gameed
+     * function used for checking errors within the BoardTest class
      */
-
-    public void debugBoardOutput(Board board)
+    @Test
+    public void debugBoardOutput() throws IOException
     {
         String gridString = "";
         Cell[] newCellArray = board.getCellArray();
         int noOfRows = board.getNoOfRows();
         int noOfColumns = board.getNoOfColumns();
         for (int i = 0; i < (noOfRows*noOfColumns); i++) {
-            gridString += newCellArray[i].getCellChar();
+        gridString += newCellArray[i].getCellChar();
         }
+        assertEquals(noOfRows,15);
+        assertEquals(noOfColumns,15);
         System.out.println("Contents from the text file: "
-            + "\nNumber of Rows = " + Integer.toString(noOfRows)
-            + "\nNumber of Columns = " + Integer.toString(noOfColumns)
-            + "\nContents from the Cell Array: " + gridString
-            + "\nTotal number of cells: " + (noOfRows*noOfColumns));
+        + "\nNumber of Rows = " + Integer.toString(noOfRows)
+        + "\nNumber of Columns = " + Integer.toString(noOfColumns)
+        + "\nContents from the Cell Array: " + gridString
+        + "\nTotal number of cells: " + (noOfRows*noOfColumns));
+        System.out.println("Test Completed: GameManager - debugBoardOutput");
     }
 }

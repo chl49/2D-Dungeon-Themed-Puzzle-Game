@@ -18,6 +18,7 @@ public class Board implements Renderable {
     private Image map = new ImageIcon("Source/CMPT276-25748/src/sprite/map.png").getImage();
     private Image newmap = new ImageIcon("Source/CMPT276-25748/src/sprite/newmap.png").getImage();
     private Image image = map;
+    String inputFile;
     int rowCount;
     int rowSize;
     Cell [] cellArray;
@@ -37,7 +38,7 @@ public class Board implements Renderable {
 
         // reading from the text file and storing into a String variable
         var fileContent = readFile(fileName);
-
+        inputFile=fileContent;
         // pass fileContent to a function that will create a cell array
         cellArray = createCellArray(fileContent);
     }
@@ -114,11 +115,20 @@ public class Board implements Renderable {
         return newCellArray;
     }
 
+    public void resetCellArray() {
+        // pass fileContent to a function that will create a cell array
+        cellArray = createCellArray(inputFile);
+    }
+
     /*
     * returns the array of cells
     */
     public Cell[] getCellArray() {
         return cellArray;
+    }
+
+    public void setCellArray(Cell[] newArray) {
+        cellArray=newArray;
     }
 
 

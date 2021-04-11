@@ -1,8 +1,6 @@
 
 package Game;
 import java.awt.Graphics2D;
- 
- 
 /**
  * Rewards class
  * This class will receive input for (position and score) and render the image
@@ -15,6 +13,7 @@ public class Rewards extends Interactable implements Renderable{
    public Rewards(int inputPos, int inputScore)
    {
         position = inputPos;
+        originalPos = inputPos;
         score = inputScore;
         isActive = true;
 

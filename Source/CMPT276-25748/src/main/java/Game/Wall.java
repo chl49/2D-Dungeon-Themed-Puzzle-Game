@@ -7,6 +7,7 @@
 
 package Game;
 
+
 public class Wall extends Cell{
 
     /**

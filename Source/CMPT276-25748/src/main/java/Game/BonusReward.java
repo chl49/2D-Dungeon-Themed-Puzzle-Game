@@ -1,4 +1,5 @@
 package Game;
+
 import java.awt.Graphics2D;
 
 /**
@@ -16,6 +17,10 @@ public class BonusReward extends Interactable implements Renderable{
         duration--;
     }
 
+    public void endLife() {
+        duration=0;
+    }
+
     /** 
      * The function will check if the reward is expired or not
      * @return boolean
@@ -26,6 +31,7 @@ public class BonusReward extends Interactable implements Renderable{
         }
         return false;
     }
+
     /** 
      * The function will check if the reward is expired or not
      * @param inputPos      takes the position input
@@ -36,6 +42,7 @@ public class BonusReward extends Interactable implements Renderable{
     {
         
          position = inputPos;
+         originalPos = inputPos;
          score = inputScore;
          isActive = true;
 
@@ -68,5 +75,12 @@ public class BonusReward extends Interactable implements Renderable{
     {
         return isActive;
     }
+
+    
+    public void setActive(boolean isActive)
+   {
+       duration = 20;
+       this.isActive = isActive;
+   }
     
 }
