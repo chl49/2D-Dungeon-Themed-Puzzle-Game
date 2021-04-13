@@ -1,4 +1,4 @@
-# Group Project - Group 10
+# Group Project - Group 10      Game: 'Treasures and Dungeons'
 
 
 Herbert Li

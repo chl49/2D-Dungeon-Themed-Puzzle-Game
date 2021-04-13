@@ -18,9 +18,4 @@ public class AppTest
     {
         assertTrue( true );
     }
-
-    public static void main(String[] args) throws IllegalStateException {
-
-        System.out.println("test class with main");
-    }
 }
