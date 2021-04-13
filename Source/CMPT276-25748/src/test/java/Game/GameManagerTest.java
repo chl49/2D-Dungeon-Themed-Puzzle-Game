@@ -282,7 +282,6 @@ public class GameManagerTest extends JPanel implements ActionListener {
 
     class TAdapter extends KeyAdapter {
         //KEY INPUTS
-
         @Override
         public void keyPressed(KeyEvent e) {
 
@@ -316,6 +315,57 @@ public class GameManagerTest extends JPanel implements ActionListener {
                 isDirty = true;
             }
         }
+    }
+
+    public int move(int position, int xDir, int yDir)
+    {
+        int newPos = position;
+        int rowSize = board.rowSize;
+        int rowCount = board.rowCount;
+
+        int x = newPos%rowSize;
+        int y = newPos/rowSize;
+
+        x += xDir;
+        y += yDir;
+        
+        if(x >= 0 && x < rowSize
+            && y >= 0 && y < rowCount)
+        {
+            newPos = y * rowSize + x;
+        }
+
+        return newPos;
+    }
+
+    @Test
+    public void testPressKey()
+    {
+        int pos = player.getPosition();
+        int x = pos%board.rowSize;
+        int y = pos/board.rowSize;
+        System.out.println("Initial position: " + x +" and " + y);
+        
+        //testing press down key
+        player.setNextPosition(move(player.getPosition(), 0, 1));
+        assertEquals(player.getNextPosition(), x+board.rowSize*(y+1));
+
+        
+        //testing press up key
+        player.setNextPosition(move(player.getPosition(), 0, -1));
+        assertEquals(player.getNextPosition(), x+board.rowSize*y);
+        
+        
+        // test press right key
+        player.setNextPosition(move(player.getPosition(), 1, 0));
+        assertEquals(player.getNextPosition(), (x+1)+board.rowSize*y);
+        
+        
+        // test press left key
+        player.setNextPosition(move(player.getPosition(), -1, 0));
+        assertEquals(player.getNextPosition(), (x-1)+board.rowSize*y);
+         
+        System.out.println("should back the orignal random position: " + x + " and " + y);
     }
 
     @Override
