@@ -1,6 +1,5 @@
 TODO:
 
-ADD UI
-ADD SCORE
-ADD MAP BACKGROUND
-ADD SPRITES 
+Create a ReadMe file
+Write report for phase 3
+Write report for phase 4
