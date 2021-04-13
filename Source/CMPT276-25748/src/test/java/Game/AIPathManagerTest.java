@@ -17,7 +17,7 @@ public class AIPathManagerTest {
     @Before
     public void setup() throws IOException
     {
-        board = new Board("./src/resources/test_board.txt");
+        board = new Board("./src/test/resources/test_board.txt");
 
         int x = (int)Math.floor(board.rowSize/2);
         int y = (int)Math.floor(board.rowCount/2);
@@ -103,7 +103,7 @@ public class AIPathManagerTest {
     @Test
     public void testObstacle() throws IOException
     {
-        board = new Board("./src/resources/test_board_blocking.txt");
+        board = new Board("./src/test/resources/test_board_blocking.txt");
 
         player = new Player(board.calcPosFrom2D(7, 2));   //above the wall
         enemy = new Enemy(board.calcPosFrom2D(7, 10));      //below the wall
