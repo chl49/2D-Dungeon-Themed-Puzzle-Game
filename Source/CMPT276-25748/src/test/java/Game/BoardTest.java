@@ -9,7 +9,9 @@ import java.io.IOException;
 
 public class BoardTest {
 
-
+    /**
+     * creates
+     */
     @Test
     public void cellArrayCreationTest() {
         char[] content = {'W','o','m','o','o','o','o','o','o','b','o','o','o','o','W'};
