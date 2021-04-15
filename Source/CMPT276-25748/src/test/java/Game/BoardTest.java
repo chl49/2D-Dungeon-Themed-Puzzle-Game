@@ -10,7 +10,7 @@ import java.io.IOException;
 public class BoardTest {
 
     /**
-     * creates
+     * Test to see if the 
      */
     @Test
     public void cellArrayCreationTest() {

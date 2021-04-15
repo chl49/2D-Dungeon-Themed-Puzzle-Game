@@ -65,10 +65,10 @@ public class GameManagerTest extends JPanel implements ActionListener {
 
         return _instance;
     }
+
     /**
      * Initalize variables and class instances
      */
-
     @Before
     public void init()
     {
@@ -206,7 +206,7 @@ public class GameManagerTest extends JPanel implements ActionListener {
     }
 
     /**
-     * create BoardTest class and insert objects into cells 
+     * Create BoardTest class and insert objects into cells 
      */
     public void createBoard() {
     
@@ -251,10 +251,9 @@ public class GameManagerTest extends JPanel implements ActionListener {
     }
     
     /**
-     * draw all objects cast into Graphics
+     * Draw all objects cast into Graphics
      * @param g Graphics object responsible for drawing
      */
-
     private void doDrawing(Graphics g) {
 
         g2d = (Graphics2D) g;
@@ -291,9 +290,8 @@ public class GameManagerTest extends JPanel implements ActionListener {
     }
 
     /**
-     * directs specific actions for arrow key inputs
+     * Directs specific actions for arrow key inputs
      */
-
     class TAdapter extends KeyAdapter {
         //KEY INPUTS
 
@@ -463,7 +461,7 @@ public class GameManagerTest extends JPanel implements ActionListener {
     }
 
     /**
-     * pathManager determines the best move for the enemy
+     * PathManager determines the best move for the enemy
      */
     @Test
     public void updateEnemyPathing()
@@ -568,7 +566,6 @@ public class GameManagerTest extends JPanel implements ActionListener {
      * Checks whether player has met a winning or losing condition
      * @return boolean for whether Test should end
      */
-
     private boolean checkTestConditions()
     {
         if(scoreManager.hasReachedRewardsGoal())
@@ -603,10 +600,9 @@ public class GameManagerTest extends JPanel implements ActionListener {
     }
 
     /**
-     * returns the current BoardTest instance and it's map layout
+     * Returns the current BoardTest instance and it's map layout
      * @return the BoardTest class
      */
-
     public Board getBoard()
     {
         return board;
@@ -617,7 +613,6 @@ public class GameManagerTest extends JPanel implements ActionListener {
      * @param cell a node containing a char, which will represent an object type to be created
      * @return cell object
      */
-
     public Object initFromCell(Cell cell)
     {
         switch (cell.cellChar) {
