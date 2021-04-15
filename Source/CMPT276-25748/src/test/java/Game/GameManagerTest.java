@@ -67,7 +67,6 @@ public class GameManagerTest extends JPanel implements ActionListener {
     }
     /**
      * Initalize variables and class instances
-     * 
      */
 
     @Before
@@ -92,7 +91,7 @@ public class GameManagerTest extends JPanel implements ActionListener {
     }
    
     /**
-     * create timer instance to schedule threads
+     * Create timer instance to schedule threads
      */
     @Test
     public void initTimer() {
@@ -106,6 +105,11 @@ public class GameManagerTest extends JPanel implements ActionListener {
     private void initBoard() {
         createBoard();
     }
+
+    /**
+     * Creating a window in the app, tests whether we can change the 
+     * component given focus from the default FocusTraversalPolicy to JPanel component
+     */
     @Test
     public void initRendering()
     {
@@ -121,6 +125,10 @@ public class GameManagerTest extends JPanel implements ActionListener {
         setBackground(Color.black);
     }
 
+    /**
+     * Test to see if the placements of objects 
+     * within the cells are created and at the correct positions
+     */
     @Test
     public void initDebugEntities()
     {
@@ -185,6 +193,10 @@ public class GameManagerTest extends JPanel implements ActionListener {
 
         System.out.println("Test Completed: GameManager - initDebugEntities");
     }
+
+    /**
+     * Test to see with we have successfully created key input receiver
+     */
     @Test
     public void initControls() {
         TAdapter T = new TAdapter();
@@ -192,6 +204,7 @@ public class GameManagerTest extends JPanel implements ActionListener {
         assertNotNull(T);
         System.out.println("Test Completed: GameManager - initControls");
     }
+
     /**
      * create BoardTest class and insert objects into cells 
      */
@@ -236,6 +249,7 @@ public class GameManagerTest extends JPanel implements ActionListener {
 
         doDrawing(g);
     }
+    
     /**
      * draw all objects cast into Graphics
      * @param g Graphics object responsible for drawing
@@ -318,6 +332,60 @@ public class GameManagerTest extends JPanel implements ActionListener {
         }
     }
 
+    public int move(int position, int xDir, int yDir)
+    {
+        int newPos = position;
+        int rowSize = board.rowSize;
+        int rowCount = board.rowCount;
+
+        int x = newPos%rowSize;
+        int y = newPos/rowSize;
+
+        x += xDir;
+        y += yDir;
+        
+        if(x >= 0 && x < rowSize
+            && y >= 0 && y < rowCount)
+        {
+            newPos = y * rowSize + x;
+        }
+
+        return newPos;
+    }
+
+    /**
+     * Test to see if the arrow key works
+     */
+    @Test
+    public void testPressKey()
+    {
+        int pos = player.getPosition();
+        int x = pos%board.rowSize;
+        int y = pos/board.rowSize;
+        System.out.println("Initial position: " + x +" and " + y);
+        
+        //testing press down key
+        player.setNextPosition(move(player.getPosition(), 0, 1));
+        assertEquals(player.getNextPosition(), x+board.rowSize*(y+1));
+
+        
+        //testing press up key
+        player.setNextPosition(move(player.getPosition(), 0, -1));
+        assertEquals(player.getNextPosition(), x+board.rowSize*y);
+        
+        
+        // test press right key
+        player.setNextPosition(move(player.getPosition(), 1, 0));
+        assertEquals(player.getNextPosition(), (x+1)+board.rowSize*y);
+        
+        
+        // test press left key
+        player.setNextPosition(move(player.getPosition(), -1, 0));
+        assertEquals(player.getNextPosition(), (x-1)+board.rowSize*y);
+         
+        System.out.println("should back the orignal random position: " + x + " and " + y);
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -331,8 +399,9 @@ public class GameManagerTest extends JPanel implements ActionListener {
         
         repaint();
     }
+
     /**
-     * update Test's next action and check conditions 
+     * Update Test's next action and check conditions 
      */
     @Test
     public void updateTestLogic()
@@ -374,7 +443,7 @@ public class GameManagerTest extends JPanel implements ActionListener {
     }
 
     /**
-     * update player and enemy's next position
+     * Update player and enemy's next position
      */
     @Test
     public void updateMovables()
@@ -392,6 +461,7 @@ public class GameManagerTest extends JPanel implements ActionListener {
         }
         System.out.println("Test Completed: GameManager - updateMovables");
     }
+
     /**
      * pathManager determines the best move for the enemy
      */
@@ -412,7 +482,7 @@ public class GameManagerTest extends JPanel implements ActionListener {
     }
 
     /**
-     * check all object's interactable conditions
+     * Check all object's interactable conditions
      */
     @Test
     public void updateInteractions()
@@ -606,7 +676,7 @@ public class GameManagerTest extends JPanel implements ActionListener {
     }
 
     /**
-     * function used for checking errors within the BoardTest class
+     * Function used for checking errors within the BoardTest class
      */
     @Test
     public void debugBoardOutput() throws IOException
