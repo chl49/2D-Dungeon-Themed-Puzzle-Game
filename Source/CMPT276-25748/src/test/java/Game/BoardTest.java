@@ -10,7 +10,8 @@ import java.io.IOException;
 public class BoardTest {
 
     /**
-     * Test to see if the 
+     * Test to see if the cell array is implemented successfully by comparing
+     * the length of the array.
      */
     @Test
     public void cellArrayCreationTest() {
@@ -36,8 +37,11 @@ public class BoardTest {
         
         assertEquals(length, newCellArray.length);
     }
-    
 
+    /**
+     * Test to see if the file is being read successfully by comparing 
+     * the number of cells on board.
+     */
     @Test
     public void readFromFileTest() throws IOException {
         String file = "src/resources/input.txt";
