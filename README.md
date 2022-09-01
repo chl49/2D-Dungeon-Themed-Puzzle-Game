@@ -1,15 +1,5 @@
 # Group Project - Group 10      Game: 'Treasures and Dungeons'
 
-
-Herbert Li
-
-Karim Ahmed Khoja
-
-Maggie Ruan
-
-Tony Ho
-
-
 How to run the game:
 go to site: https://csil-git1.cs.surrey.sfu.ca/cmpt276s21_group10/project
 click git clone 
