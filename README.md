@@ -14,8 +14,8 @@ note: use java jdk 15.
 
 
 # Libraries used:
-Java AWT
-Java Swing
+- Java AWT
+- Java Swing
 
 
 # How to Test the Game:
