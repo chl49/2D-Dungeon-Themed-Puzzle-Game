@@ -19,4 +19,7 @@ note: use java jdk 15.
 
 
 # How to Test the Game:
-Run class or functions from AIPathManagerTest.java, BoardTest.java, GameManagerTest.java inside Project/Source/CMPT276-25748/src/test/java/Game
+Run the following classes and functions inside Project/Source/CMPT276-25748/src/test/java/Game:
+- AIPathManagerTest.java
+- BoardTest.java
+- GameManagerTest.java 
